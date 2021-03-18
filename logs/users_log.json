@@ -1,5 +1,19 @@
 {
     "users": [
-        
+        {
+            "usrID" : "Toufic",
+            "usrEmail": "LOL@LOL.com",
+            "usrPassword": "123456"
+        },
+        {
+            "usrID" : "LOL",
+            "usrEmail": "LOL@LOL.com",
+            "usrPassword": "123456"
+        },
+        {
+            "usrID" : "Friend",
+            "usrEmail": "LOL@LOL.com",
+            "usrPassword": "123456"
+        }
     ]
 }

@@ -2,9 +2,16 @@ function signup(){
     $(document).ready(function () {
         console.log("Doc ready");
 
+        //Email adding part
         $("main .log-in .login-form .usr-name").after("<div class='usr-email'></div>");
         $("main .log-in .login-form .usr-email").append("<label>Email : </label>");
         $("main .log-in .login-form .usr-email").append("<input type='email' id='usrEmail' placeholder='Email'>");
+
+        //Usr check part
+        $("#usrID").remove();
+        $("main .login-form .usr-name").append("<input type='text' onchange='checkUsrID()' id='usrID' placeholder='User name'>")
+
+        //Bottom addling part
         $("#signup-footer").remove();
         $("main .log-in .login-form .wrapper-footer .login-btn").after("<a href='#' id='signup-footer' onclick='SignupGoBackBtn()'> Go back !</a>");
         $("main .log-in .login-form .wrapper-footer .login-btn").remove();
@@ -14,6 +21,8 @@ function signup(){
 };
 
 function SignupGoBackBtn() {
+    $("#usrID").remove();
+    $("main .login-form .usr-name").append("<input type='text' id='usrID' placeholder='User name'>")
     $("div.usr-email").remove();
     $("main .log-in .login-form .wrapper-footer .login-btn").remove();
     $("main .log-in .login-form .wrapper-footer").prepend("<a href='#' onclick='logInUsr()' class='login-btn'> <div class='login-btn-div'><h2 class='text-log'>Log in</h2></div>");
@@ -55,6 +64,27 @@ function signUpUsr() {
         }
     }).done(function (e) {
 
+    }).fail(function (e) {
+
+    });
+}
+
+function checkUsrID() {
+    let usrID = $("#usrID").val();
+    console.log(usrID);
+    $.ajax({
+        method: "POST",
+        datatype: "json",
+        url: "../php/checkUsrID.php",
+        data: {
+            "usrID": usrID
+        }
+    }).done(function (e) {
+        if(e == 1){
+            $("#usrID").css("background", "lightgreen");
+        }else{
+            $("#usrID").css("background", "red");
+        }
     }).fail(function (e) {
 
     });
