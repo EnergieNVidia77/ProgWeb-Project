@@ -42,9 +42,13 @@ function logInUsr () {
             "usrPassword": usrPassword
         }
     }).done(function (e) {
-
+        if(e == 1){
+            window.location = "home.html";
+        }else{
+            $("#usrID, #usrPassword").css("background", "red");
+        }
     }).fail(function (e) {
-
+        console.log(e);
     });
 }
 
@@ -68,7 +72,7 @@ function signUpUsr() {
             $("#usrID, #usrEmail, #usrPassword").css("background", "red");
         }
     }).fail(function (e) {
-
+        console.log(e);
     });
 }
 
@@ -88,6 +92,6 @@ function checkUsrID() {
             $("#usrID").css("background", "red");
         }
     }).fail(function (e) {
-
+        console.log(e);
     });
 }

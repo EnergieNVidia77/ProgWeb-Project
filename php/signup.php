@@ -28,7 +28,7 @@
 
     $usrs_log_array = json_decode($usrs_logs_raw, true);
 
-    $user_signup_info_Hash = array(0 => array("usrID"=>"$usrID", "usrEmail"=>"$usrEmailHash", "usrPassword"=>"$usrEmailHash"));
+    $user_signup_info_Hash = array(0 => array("usrID"=>"$usrID", "usrEmail"=>"$usrEmailHash", "usrPassword"=>"$usrPasswordHash"));
     
     $new_usrs_log = array_merge($usrs_log_array['users'], $user_signup_info_Hash);
 
