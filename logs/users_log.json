@@ -1,19 +1,9 @@
 {
     "users": [
         {
-            "usrID" : "Toufic",
-            "usrEmail": "LOL@LOL.com",
-            "usrPassword": "123456"
-        },
-        {
-            "usrID" : "LOL",
-            "usrEmail": "LOL@LOL.com",
-            "usrPassword": "123456"
-        },
-        {
-            "usrID" : "Friend",
-            "usrEmail": "LOL@LOL.com",
-            "usrPassword": "123456"
+            "usrID": "Admin",
+            "usrEmail": "$2y$10$.YjhOD6b6fZVD7gFl1yE9.m\/Oym075a3CGfs9GU9COF2wTETW8ruK",
+            "usrPassword": "$2y$10$.YjhOD6b6fZVD7gFl1yE9.m\/Oym075a3CGfs9GU9COF2wTETW8ruK"
         }
     ]
 }
