@@ -18,9 +18,6 @@
 
     $usrs_log_array = json_decode($usrs_logs_raw, true);
 
-    //var_dump($usrs_log_array['users'][0]['usrPassword']);
-    //var_dump($usrPassword);
-
     for($i = 0; $i < count($usrs_log_array['users']); $i+=1){
         if($usrs_log_array['users'][$i]['usrID'] == $usrID){
             $usrPassword_Hash = $usrs_log_array['users'][$i]['usrPassword'];

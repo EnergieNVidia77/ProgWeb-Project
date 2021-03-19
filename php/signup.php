@@ -21,6 +21,11 @@
         exit();
     }
 
+    if($_POST["testValidUsrID"] == "false"){
+        echo 0;
+        exit();
+    }
+
     $usrEmailHash = password_hash($usrEmail, PASSWORD_DEFAULT);
     $usrPasswordHash = password_hash($usrPassword, PASSWORD_DEFAULT);
 

@@ -1,3 +1,6 @@
+
+let test_If_Valid_UsrID = true;               //Use to transmit if the usrID in the checking usr ID is valid to the signin up process
+
 function signup(){
     $(document).ready(function () {
         console.log("Doc ready");
@@ -63,7 +66,8 @@ function signUpUsr() {
         data: {
             "usrID": usrID,
             "usrEmail": usrEmail,
-            "usrPassword": usrPassword
+            "usrPassword": usrPassword,
+            "testValidUsrID" : test_If_Valid_UsrID
         }
     }).done(function (e) {
         if(e == 1){
@@ -87,11 +91,42 @@ function checkUsrID() {
         }
     }).done(function (e) {
         if(e == 1){
+            test_If_Valid_UsrID = true;
             $("#usrID").css("background", "lightgreen");
         }else{
+            test_If_Valid_UsrID = false;
             $("#usrID").css("background", "red");
         }
     }).fail(function (e) {
         console.log(e);
     });
+}
+
+function PWForgotPageSetUp() {
+    window.location = "forgotPWPage.html";
+}
+
+function ForgotPWGoBackBtn() {
+    window.location = "login.html";
+}
+
+//Check si l'email entré est dans la BD si oui rajoute un input pour le MDP
+
+function checkEmail() {
+    $("#usrEmail").val();
+    $.ajax({
+
+    })
+}
+
+//rajoute un input pour le MDP
+
+function addPWChangeInput() {
+
+}
+
+//Change le password avec l'email donnée
+
+function ChangePW() {
+
 }
