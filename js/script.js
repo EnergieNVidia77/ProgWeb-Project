@@ -52,7 +52,6 @@ function signUpUsr() {
     let usrID = $("#usrID").val();
     let usrEmail = $("#usrEmail").val();
     let usrPassword = $("#usrPassword").val();
-    console.log(usrID, usrEmail, usrPassword);
     $.ajax({
         method: "POST",
         datatype: "json",
@@ -63,7 +62,11 @@ function signUpUsr() {
             "usrPassword": usrPassword
         }
     }).done(function (e) {
-
+        if(e == 1){
+            window.location = "home.html";
+        }else{
+            $("#usrID, #usrEmail, #usrPassword").css("background", "red");
+        }
     }).fail(function (e) {
 
     });
@@ -71,7 +74,6 @@ function signUpUsr() {
 
 function checkUsrID() {
     let usrID = $("#usrID").val();
-    console.log(usrID);
     $.ajax({
         method: "POST",
         datatype: "json",
