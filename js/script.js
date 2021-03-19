@@ -112,20 +112,42 @@ function ForgotPWGoBackBtn() {
 //Check si l'email entré est dans la BD si oui rajoute un input pour le MDP
 
 function checkEmail() {
-    $("#usrEmail").val();
+    let usrEmail = $("#usrEmail").val();
     $.ajax({
-
-    })
+        method: "POST",
+        datatype: "int",
+        url: "../php/checkUsrEmail.php",
+        data: {
+            "usrEmail": usrEmail
+        }
+    }).done(function (e) {
+        if(e == 1){
+            $("#usrEmail").css("background", "red");
+        }else{
+            $("#usrEmail").css("background", "lightgreen");
+            $("main .log-in .login-form .usr-email").after("<div class='usr-password'><label>New password : </label><input type='password' id='usr-new-PW' placeholder='New password'></div>")
+        }
+    }).fail(function (e) {
+        console.log(e);
+    });
 }
-
-//rajoute un input pour le MDP
-
-function addPWChangeInput() {
-
-}
-
-//Change le password avec l'email donnée
 
 function ChangePW() {
-
+    let usrEmail = $("#usrEmail").val();
+    let usrNewPW = $("#usr-new-PW").val();
+    $.ajax({
+        method: "POST",
+        datatype: "int",
+        url: "../php/changePW.php",
+        data: {
+            "usrNewPW" : usrNewPW,
+            "usrEmail": usrEmail
+        }
+    }).done(function (e) {
+        if(e == 1){
+            window.location = "../login.html";
+        }
+    }).fail(function (e) {
+        console.log(e);
+    });
 }

@@ -2,8 +2,8 @@
     "users": [
         {
             "usrID": "Admin",
-            "usrEmail": "$2y$10$ysiRPCoe8Fssj2Eqk334XePPtuVL81jCFxhko\/GOUZYmiAjOppgvC",
-            "usrPassword": "$2y$10$a0RFku1RUh4h\/Oqzg.m4xO7MlXgaiTkq1\/8d.9Ti5\/urKddjViCiq"
+            "usrEmail": "$2y$10$5qZGaHvrVlrVL5mlw6uxcePVit12Sl4tYtKn7YOn.H9vN\/zxoNhjO",
+            "usrPassword": "$2y$10$NfIoTy3oFotIPYJUN5MSUurObK13IDapQCeC8iPIWhPklWmQfGCJa"
         }
     ]
 }
