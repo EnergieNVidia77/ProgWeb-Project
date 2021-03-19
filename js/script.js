@@ -3,7 +3,6 @@ let test_If_Valid_UsrID = true;               //Use to transmit if the usrID in 
 
 function signup(){
     $(document).ready(function () {
-        console.log("Doc ready");
 
         //Email adding part
         $("main .log-in .login-form .usr-name").after("<div class='usr-email'></div>");
@@ -15,11 +14,10 @@ function signup(){
         $("main .login-form .usr-name").append("<input type='text' onchange='checkUsrID()' id='usrID' placeholder='User name'>")
 
         //Bottom addling part
-        $("#signup-footer").remove();
+        $("#signup-footer, #signup-footer").remove();
         $("main .log-in .login-form .wrapper-footer .login-btn").after("<a href='#' id='signup-footer' onclick='SignupGoBackBtn()'> Go back !</a>");
         $("main .log-in .login-form .wrapper-footer .login-btn").remove();
         $("main .log-in .login-form .wrapper-footer").prepend("<a href='#' onclick='signUpUsr()' class='login-btn'> <div class='login-btn-div'><h2 class='text-log'>Sign up !</h2></div>");
-
     });
 };
 
@@ -31,6 +29,7 @@ function SignupGoBackBtn() {
     $("main .log-in .login-form .wrapper-footer").prepend("<a href='#' onclick='logInUsr()' class='login-btn'> <div class='login-btn-div'><h2 class='text-log'>Log in</h2></div>");
     $("main .log-in .login-form .wrapper-footer #signup-footer").remove();
     $("main .log-in .login-form .wrapper-footer .login-btn").after("<a href='#' id='signup-footer' onclick='signup()'>Sign up !</a>");
+    $("main .log-in .login-form .wrapper-footer #signup-footer").after("<a href='#' id='signup-footer' onclick='PWForgotPageSetUp()'>Forgot your password ?</a>");
 }
 
 function logInUsr () {
