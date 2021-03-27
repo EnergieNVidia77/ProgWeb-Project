@@ -23,6 +23,9 @@
             $usrPassword_Hash = $usrs_log_array['users'][$i]['usrPassword'];
             $test = password_verify($usrPassword, $usrPassword_Hash);
             if($test){
+                if(!isset($_COOKIE["CurrentUsrID"])){
+                    setcookie("CurrentUsrID", $usrID, strtotime("+2 day"));
+                }
                 echo 1;
                 exit();
             }else{
