@@ -11,4 +11,12 @@ function displayBallots(){
       console.log(e);
       $("#message").html("<span class='ko'> Error: network problem </span>");
     });
-  }
+}
+
+function CreateBallotPageSetup () {
+  $("main").empty();
+  $("main").append("<h1>Create Ballot :</h1>");
+  $("main").append("<div class='voteTitle'></div>");
+  $(".voteTitle").append("<label>Titre du vote : </label>");
+  $(".voteTitle").append("<input type='text' id='voteTitle' placeholder='Titre du vote'>");
+}
