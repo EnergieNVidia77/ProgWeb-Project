@@ -11,7 +11,7 @@
 
         <title>ProgWeb | Voting</title>
     </head>
-    <body onload="displayBallots()">
+    <body>
         <main>
             <h1 id="Ballots">Ballots</h1>
             <table id ="list">
@@ -19,5 +19,6 @@
             </table>
             <button type='button'>Create ballot</button>
         </main>
+        <script>$(document).ready(displayBallots);</script>
     </body>
 </html>
