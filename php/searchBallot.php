@@ -1,17 +1,19 @@
 <?php
   $jsonString = file_get_contents('../logs/ballots.json');
-  $data1 = json_decode($jsonString, true);
-
-  $jsonString = file_get_contents('../logs/users_log.json');
-  $data2 = json_decode($jsonString, true);
-  $nbGens = count($data2["users"]);
+  $data = json_decode($jsonString, true);
 
   $result = array();
-  foreach ($data1["votes"] as $i=>$etu){
+  foreach ($data["votes"] as $i=>$etu){
       $title = $etu["title"];
       $promoter = $etu["promoter"];
 
-      $nbVoters = count($etu["voters"]);
+      $nbGens = count($etu["voters"]);
+      $nbVoters = 0;
+      foreach($etu["voters"] as $i=>$etu) {
+          if($etu["vote"]!="NULL") {
+              $nbVoters = $nbVoters + 1;
+          }
+      }
 
       $pr = ($nbVoters/$nbGens)*100;
       array_push($result, array("title"=>$title,"promoter"=>$promoter,"pr"=>$pr));
