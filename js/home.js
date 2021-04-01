@@ -14,14 +14,14 @@ function displayBallots(){
 }
 
 function CreateBallotPageSetup () {
-  $("main").empty();
-  $("main").append("<h1>Create Ballot :</h1>");
+  $(".ballots").empty();
+  $(".ballots").append("<h1>Create Ballot :</h1>");
 
-  $("main").append("<div class='voteTitle'></div>");
+  $(".ballots").append("<div class='voteTitle'></div>");
   $(".voteTitle").append("<label>Titre du vote : </label>");
   $(".voteTitle").append("<input type='text' id='voteTitle' placeholder='Titre du vote'>");
 
-  $("main").append("<div class='voteQuestion'></div>");
+  $(".ballots").append("<div class='voteQuestion'></div>");
   $(".voteQuestion").append("<label>Question : </label>");
   $(".voteQuestion").append("<input type='text' id='voteQuestion' placeholder='Question ?'>");
 
