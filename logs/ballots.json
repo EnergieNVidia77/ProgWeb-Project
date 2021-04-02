@@ -1,15 +1,15 @@
 {
-    "votes" : [
+    "votes": [
         {
-            "voteID" : "qsfsgsgqf",
+            "voteID": "qsfsgsgqf",
             "title": "Chocolat ou chocolatinee ?",
             "promoter": "Admin",
             "voters": [
                 {
-                    "userID" : "Admin",
-                    "vote" : "NULL",
-                    "nbVote" : "1",
-                    "procuration" : "NULL"
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "nbVote": "1",
+                    "procuration": "NULL"
                 }
             ],
             "response": [

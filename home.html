@@ -7,17 +7,25 @@
 
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="./css/stylesheet2.css" class="stylesheet">
         <script src="./js/home.js"></script>
 
     <title>ProgWeb | Voting</title>
 </head>
 <body>
     <main>
-        <h1 id="Ballots">Ballots</h1>
-        <table id ="list">
-            <tr><th>Title</th><th>Promoter</th><th>Participation rate</th></tr>
-        </table>
-        <button type='button' onclick="CreateBallotPageSetup()">Create ballot</button>
+        <div class="content">
+            <div class="menu">
+                <button id='BallotSetUp' type='button' onclick="CreateBallotPageSetup()">Create ballot</button>
+                <button class="logout-btn" onclick='logOut()'>LOGOUT</button>
+            </div>
+            <div class="ballots">
+                <h1>Ballots</h1>
+                <table id ="list">
+                    <tr><th>Title</th><th>Promoter</th><th>Participation rate</th></tr>
+                </table>
+            </div>
+        </div>
     </main>
     <script>$(document).ready(displayBallots);</script>
 </body>
