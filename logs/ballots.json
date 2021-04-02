@@ -19,10 +19,17 @@
             ]
         },
         {
-            "voteID": "606764fa5b9eb",
+            "voteID": "606766bbedd62",
             "title": "Me president",
             "promoter": "Admin",
-            "voters": [],
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "nbVote": 1,
+                    "procuration": "NULL"
+                }
+            ],
             "response": [
                 "Yes",
                 "No"
