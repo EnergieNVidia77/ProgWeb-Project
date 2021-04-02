@@ -17,16 +17,38 @@ function CreateBallotPageSetup () {
   $(".ballots").empty();
   $(".ballots").append("<h1>Create Ballot :</h1>");
 
-  $(".ballots").append("<div class='voteTitle'></div>");
+  $("#BallotSetUp").remove();
+  $(".content .menu").prepend("<button type='button' id='goBackBtn'>Go back</button>")
+
+  $(".ballots").append("<div class='optionSection'></div>");
+
+  $(".optionSection").append("<div class='voteTitle'></div>");
   $(".voteTitle").append("<label>Titre du vote : </label>");
   $(".voteTitle").append("<input type='text' id='voteTitle' placeholder='Titre du vote'>");
 
-  $(".ballots").append("<div class='voteQuestion'></div>");
+  $(".optionSection").append("<div class='voteQuestion'></div>");
   $(".voteQuestion").append("<label>Question : </label>");
   $(".voteQuestion").append("<input type='text' id='voteQuestion' placeholder='Question ?'>");
 
+  $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+
+  $(".optionSection").append("<div id='BtnWrapper'></div>");
+
+  $("#BtnWrapper").append("<button type='button' id='confirmVoteBtn'>Confirm</button>");
+  $("#BtnWrapper").append("<button type='button' id='addChoiceBtn' onclick='addOptionItem()'>Add choice</button>");
+
 }
 
-function addOptionItem(nbChoice){
-  $("main").append("<div class='optionItem'></div> <label>Choix " + nbChoice+1 + ": </label> <input type='text' id='optionItem' placeholder='Choix "+ nbChoice+1 +"'>");
+function addOptionItem(){
+  let nbChoice = document.getElementById('optionItem').children.length + 1;
+  if(nbChoice > 1){
+    nbChoice = Math.round(nbChoice / 2);
+  }
+  if(nbChoice < 8){
+    $(".optionItem").append("<label>Choix " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choix "+ nbChoice +"'>");
+  }
+  if(nbChoice == 8){
+    $(".optionItem").append("<label>Choix " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choix "+ nbChoice +"'>");
+    $('#addChoiceBtn').prop('disabled', true);
+  }
 }
