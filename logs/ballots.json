@@ -12,8 +12,27 @@
                     "procuration" : "NULL"
                 }
             ],
-            "response" : [
-                "Oui", "Non", "M'en bas les couilles"
+            "response": [
+                "Oui",
+                "Non",
+                "M'en bas les couilles"
+            ]
+        },
+        {
+            "voteID": "606766bbedd62",
+            "title": "Me president",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "nbVote": "1",
+                    "procuration": "NULL"
+                }
+            ],
+            "response": [
+                "Yes",
+                "No"
             ]
         }
     ]
