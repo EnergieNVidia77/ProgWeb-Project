@@ -95,6 +95,12 @@ main .content .ballots .optionSection #BtnWrapper button:hover {
     background: lightgreen;
 }
 
+main .content .menu .logout-btn:hover{
+    background: #E03121;
+    color: white;
+    border-color: white;
+}
+
 main .content .ballots .optionSection .optionItem {
     display: flex;
     flex-direction: column;

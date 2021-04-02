@@ -1,19 +1,31 @@
 {
-    "votes" : [
+    "votes": [
         {
-            "voteID" : "qsfsgsgqf",
+            "voteID": "qsfsgsgqf",
             "title": "Chocolat ou chocolatinee ?",
             "promoter": "Admin",
             "voters": [
                 {
-                    "userID" : "Admin",
-                    "vote" : "NULL",
-                    "nbVote" : "1",
-                    "procuration" : "NULL"
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "nbVote": "1",
+                    "procuration": "NULL"
                 }
             ],
-            "response" : [
-                "Oui", "Non", "M'en bas les couilles"
+            "response": [
+                "Oui",
+                "Non",
+                "M'en bas les couilles"
+            ]
+        },
+        {
+            "voteID": "606764fa5b9eb",
+            "title": "Me president",
+            "promoter": "Admin",
+            "voters": [],
+            "response": [
+                "Yes",
+                "No"
             ]
         }
     ]
