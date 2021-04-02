@@ -105,3 +105,12 @@ main .content .ballots .optionSection .optionItem {
     display: flex;
     flex-direction: column;
 }
+
+#list button {
+    padding: 2px 5px;
+    border-radius: 5px;
+}
+
+#list button:hover {
+    background: lightgreen;
+}
