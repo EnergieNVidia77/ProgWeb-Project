@@ -61,12 +61,13 @@ main .content .ballots {
     width: 80%;
 }
 
-#list tr th {
-    padding : 10px;
+#list {
+    width: 100%;
 }
 
-#list tr td {
+th, td {
     padding : 10px;
+    text-align: left;
 }
 
 main .content .ballots .optionSection {
