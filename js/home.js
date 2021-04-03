@@ -86,7 +86,7 @@ function logOut() {
 function nextStepPopup() {
   let confirmed = confirm("If you click OK you will not be able to stop the creation of the vote anymore. Are you sure to continue ?");
   if(confirmed == true){
-    linkListToLastVotePageSetup()
+    firstStepSaveInfoVote()
   }
 }
 
