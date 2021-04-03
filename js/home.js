@@ -137,11 +137,11 @@ function firstStepSaveInfoVote() {
       }
 
       if(e == 4){
-        alert("A vote without choice is not a vote");
+        alert("A vote without choices is not a vote");
       }
 
       if(e == 99){
-        alert("Oh we have a dictator good comrade but not here put at least two choices even if they're the same 😈");
+        alert("Oh we have a dictator, good comrade but not here, put at least two choices even if they're the same 😈");
       }
     }
   }).fail(function (e) {
