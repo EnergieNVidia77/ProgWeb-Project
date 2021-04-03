@@ -1,8 +1,9 @@
 {
     "votes": [
         {
-            "voteID": "99bfbd0573b92f9bea87c54465e261a6",
-            "title": "Me president",
+            "voteID": "28fe5d0a581f8c4bfdb12430d6854bbf",
+            "title": "Me president ",
+            "question": "Do you vote for me ?",
             "promoter": "Admin",
             "voters": [
                 {
@@ -18,8 +19,9 @@
             ]
         },
         {
-            "voteID": "380daa94a2af1ff614c5ca526987aa14",
+            "voteID": "8a3480421a23eb23a4a7c3456a560cea",
             "title": "Benjamin is an idiot",
+            "question": "Give your answer ?",
             "promoter": "Admin",
             "voters": [
                 {
@@ -30,10 +32,46 @@
                 }
             ],
             "response": [
-                "Very much",
                 "Damn right",
-                "No he is something beyond",
-                "Come on don't insult idiots"
+                "Yes",
+                "You're too mean on idiots ",
+                "He is"
+            ]
+        },
+        {
+            "voteID": "ebc73d73381cda288409317e4f2f7f26",
+            "title": "Toufic is awesome",
+            "question": "Is he ?",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "voted": "false",
+                    "votedProcuration": "false",
+                    "procuration": "NULL"
+                }
+            ],
+            "response": [
+                "Yes",
+                "YES !"
+            ]
+        },
+        {
+            "voteID": "d48c2a8dca49379bb7d5bc12b42a1ea1",
+            "title": "Confinement",
+            "question": "Are for it or not ?",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "voted": "false",
+                    "votedProcuration": "false",
+                    "procuration": "NULL"
+                }
+            ],
+            "response": [
+                "Yes",
+                "No"
             ]
         }
     ]

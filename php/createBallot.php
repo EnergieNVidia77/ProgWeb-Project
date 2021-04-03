@@ -11,9 +11,7 @@
 
     $own_registration = array("userID" => $CurrentUsrID, "voted" => "false", "votedProcuration" => "false", "procuration" => "NULL");
 
-    $vote = array(0 => array("voteID" => $voteID, "title" => $voteTitle, "promoter" => $CurrentUsrID, "voters" => array($own_registration), "response" => $voteChoices));
-
-    $vote = array(0 => array("voteID" => $voteID, "title" => $voteTitle, "promoter" => $CurrentUsrID, "voters" => array($own_registration), "response" => $voteChoices));
+    $vote = array(0 => array("voteID" => $voteID, "title" => $voteTitle, "question" => $voteQuestion,"promoter" => $CurrentUsrID, "voters" => array($own_registration), "response" => $voteChoices));
 
     $new_array_of_votes = array_merge($array_of_votes['votes'], $vote);
 
@@ -23,5 +21,13 @@
 
     $test = file_put_contents("../logs/ballots.json", $new_array_of_votes_JSON);
 
+    if(isset($_COOKIE['lastVoteID'])) {
+        unset($_COOKIE['lastVoteID']);
+        setcookie("lastVoteID", $voteID, strtotime("+30 minutes"));
+        echo '1';
+    }else{
+        setcookie("lastVoteID", $voteID, strtotime("+30 minutes"));
+        echo '1';
+    }
 
 ?>

@@ -25,8 +25,8 @@ function CreateBallotPageSetup () {
   $(".ballots").append("<div class='optionSection'></div>");
 
   $(".optionSection").append("<div class='voteTitle'></div>");
-  $(".voteTitle").append("<label>Titre du vote : </label>");
-  $(".voteTitle").append("<input type='text' id='voteTitle' placeholder='Titre du vote'>");
+  $(".voteTitle").append("<label>Title of the vote : </label>");
+  $(".voteTitle").append("<input type='text' id='voteTitle' placeholder='Title of the vote'>");
 
   $(".optionSection").append("<div class='voteQuestion'></div>");
   $(".voteQuestion").append("<label>Question : </label>");
@@ -36,7 +36,7 @@ function CreateBallotPageSetup () {
 
   $(".optionSection").append("<div id='BtnWrapper'></div>");
 
-  $("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='listPageSetup()'>Next step</button>");
+  $("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='firstStepSaveInfoVote()'>Next step</button>");
   $("#BtnWrapper").append("<button type='button' id='addChoiceBtn' onclick='addOptionItem()'>Add choice</button>");
 
 }
@@ -49,10 +49,10 @@ function addOptionItem(){
     nbChoice = Math.round(nbChoice / 2);
   }
   if(nbChoice < 8){
-    $(".optionItem").append("<label>Choix " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choix "+ nbChoice +"'>");
+    $(".optionItem").append("<label>Choice " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
   }
   if(nbChoice == 8){
-    $(".optionItem").append("<label>Choix " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choix "+ nbChoice +"'>");
+    $(".optionItem").append("<label>Choice " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
 
     //Disabeling button
     $('#addChoiceBtn').prop('disabled', true);
@@ -81,8 +81,9 @@ function logOut() {
 }
 
 
+//Register and save all the infos on the create ballot first page
 
-function listPageSetup(){
+function firstStepSaveInfoVote() {
   let nbChoice = document.getElementById('optionItem').children.length + 1;
   if(nbChoice > 1){
     nbChoice = Math.round(nbChoice / 2) - 1;
@@ -114,8 +115,25 @@ function listPageSetup(){
       "arrayOfChoice": arrayOfChoice
     }
   }).done(function (e) {
-    console.log(e);
+    if(e == '1'){
+      console.log("Everything went fine");
+      linkListToLastVote();
+    }
   }).fail(function (e) {
     console.log("Error");
+  });
+}
+
+
+//Link the list of voters to the last vote registered in the
+
+function linkListToLastVote() {
+  $.ajax({
+    dataType: "json",
+    url: "../php/linkListWithVote.php"
+  }).done(function (e) {
+    console.log(e);
+  }).fail(function (e) {
+    console.log(e);
   });
 }
