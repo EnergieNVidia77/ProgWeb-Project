@@ -128,6 +128,8 @@ function firstStepSaveInfoVote() {
 
 function linkListToLastVotePageSetup() {
 
+  $('#goBackBtn').prop('disabled', true);
+
   $('.optionSection').empty();
 
   $('.optionSection').append("<div class='optionItem'></div>");
