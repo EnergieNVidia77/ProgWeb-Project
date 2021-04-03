@@ -154,6 +154,7 @@ function checkPersonUsrID() {
       $('#addPerson').prop('disabled', false);
     }else{
       $("#personName").css("background", "red");
+      $('#addPerson').prop('disabled', true);
     }
   }).fail(function (e) {
     console.log(e);
