@@ -36,9 +36,7 @@ function CreateBallotPageSetup () {
 
   $(".optionSection").append("<div id='BtnWrapper'></div>");
 
-
-  //Don't forget to add onclick='firstStepSaveInfoVote()'
-  $("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='linkListToLastVotePageSetup()'>Next step</button>");
+  $("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='nextStepPopup()'>Next step</button>");
   $("#BtnWrapper").append("<button type='button' id='addChoiceBtn' onclick='addOptionItem()'>Add choice</button>");
 
 }
@@ -82,6 +80,15 @@ function logOut() {
   window.location = "./login.html";
 }
 
+
+ // ---------> Don't forget to add onclick='firstStepSaveInfoVote()' <---------
+
+function nextStepPopup() {
+  let confirmed = confirm("If you click OK you will not be able to stop the creation of the vote anymore. Are you sure to continue ?");
+  if(confirmed == true){
+    linkListToLastVotePageSetup()
+  }
+}
 
 //Register and save all the infos on the create ballot first page
 
@@ -129,6 +136,7 @@ function firstStepSaveInfoVote() {
 function linkListToLastVotePageSetup() {
 
   $('#goBackBtn').prop('disabled', true);
+  $('.logout-btn').prop('disabled', true);
 
   $('.optionSection').empty();
 
@@ -163,7 +171,7 @@ function checkPersonUsrID() {
   });
 }
 
-//Link the list of voters to the last vote registered in the
+//Link the list of voters to the last vote registered in the logs directory
 
 function linkPersonToLastVote() {
   $.ajax({
