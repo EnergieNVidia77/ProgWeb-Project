@@ -36,7 +36,9 @@ function CreateBallotPageSetup () {
 
   $(".optionSection").append("<div id='BtnWrapper'></div>");
 
-  $("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='firstStepSaveInfoVote()'>Next step</button>");
+
+  //Don't forget to add onclick='firstStepSaveInfoVote()'
+  $("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='linkListToLastVotePageSetup()'>Next step</button>");
   $("#BtnWrapper").append("<button type='button' id='addChoiceBtn' onclick='addOptionItem()'>Add choice</button>");
 
 }
@@ -117,17 +119,50 @@ function firstStepSaveInfoVote() {
   }).done(function (e) {
     if(e == '1'){
       console.log("Everything went fine");
-      linkListToLastVote();
+      linkListToLastVotePageSetup();
     }
   }).fail(function (e) {
     console.log("Error");
   });
 }
 
+function linkListToLastVotePageSetup() {
+
+  $('.optionSection').empty();
+
+  $('.optionSection').append("<div class='optionItem'></div>");
+  $('.optionItem').append("<label>Name of the person : </label>");
+  $('.optionItem').append("<input type='text' id='personName' placeholder='User ID' onchange='checkPersonUsrID()'>");
+
+  $(".optionSection").append("<div id='BtnWrapper'></div>");
+  $("#BtnWrapper").append("<button type='button' id='confirmVote' onclick='homePageSetup()'>Confirm</button>");
+  $("#BtnWrapper").append("<button type='button' id='addPerson' onclick='linkPersonToLastVote()' disabled>Add person</button>");
+
+}
+
+function checkPersonUsrID() {
+  let personID = $("#personName").val();
+  $.ajax({
+    method: "POST",
+    url: "../php/checkUsrID.php",
+    data: {
+      "usrID": personID
+    }
+  }).done(function (e) {
+    if(e == 0){
+      $("#personName").css("background", "lightgreen");
+      $('#addPerson').prop('disabled', false);
+    }else{
+      $("#personName").css("background", "red");
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
+}
 
 //Link the list of voters to the last vote registered in the
 
-function linkListToLastVote() {
+function linkPersonToLastVote() {
   $.ajax({
     dataType: "json",
     url: "../php/linkListWithVote.php"

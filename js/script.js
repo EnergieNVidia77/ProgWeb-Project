@@ -1,5 +1,5 @@
 
-let test_If_Valid_UsrID = true;               //Use to transmit if the usrID in the checking usr ID is valid to the signin up process
+let test_If_Valid_UsrID = true;               //Use to transmit if the usrID in the checking usrID is valid to the signing up process
 
 function signup(){
     $(document).ready(function () {

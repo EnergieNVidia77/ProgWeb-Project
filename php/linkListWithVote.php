@@ -1,5 +1,5 @@
 <?php
 
-    echo $_COOKIE['lastVoteID'];
+    var_dump($_COOKIE);
 
 ?>
