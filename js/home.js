@@ -81,12 +81,13 @@ function logOut() {
 }
 
 
- // ---------> Don't forget to add onclick='firstStepSaveInfoVote()' <---------
+ // ---------> Don't forget to add 'firstStepSaveInfoVote()' <---------
 
 function nextStepPopup() {
-  let confirmed = confirm("If you click OK you will not be able to stop the creation of the vote anymore. Are you sure to continue ?");
+  let confirmed = confirm("If you click OK you will not be able to stop the creation of the vote anymore. Are you sure you want to continue ?");
   if(confirmed == true){
     firstStepSaveInfoVote()
+    //linkListToLastVotePageSetup()
   }
 }
 
@@ -133,6 +134,8 @@ function firstStepSaveInfoVote() {
   });
 }
 
+//Set up the HTML for adding persons to the current vote 
+
 function linkListToLastVotePageSetup() {
 
   $('#goBackBtn').prop('disabled', true);
@@ -148,7 +151,12 @@ function linkListToLastVotePageSetup() {
   $("#BtnWrapper").append("<button type='button' id='confirmVote' onclick='homePageSetup()'>Confirm</button>");
   $("#BtnWrapper").append("<button type='button' id='addPerson' onclick='linkPersonToLastVote()' disabled>Add person</button>");
 
+  $(".optionSection").append("<table id='listPerson'></table>")
+  $("#listPerson").append("<tr><th>Person ID :</th></tr>")
+
 }
+
+//Verify if the user entered in the adding person to vote creen exist on the plaforme
 
 function checkPersonUsrID() {
   let personID = $("#personName").val();
@@ -174,11 +182,20 @@ function checkPersonUsrID() {
 //Link the list of voters to the last vote registered in the logs directory
 
 function linkPersonToLastVote() {
+  let personID = $("#personName").val();
   $.ajax({
+    method: "POST",
     dataType: "json",
-    url: "../php/linkListWithVote.php"
+    url: "../php/linkListWithVote.php",
+    data: {"personID": personID}
   }).done(function (e) {
-    console.log(e);
+    if(e == 1){
+      let personAdded = $("#personName").val();
+      $("#listPerson").append("<span>  - "+ personAdded +"</span>");
+      $("#personName").val('');
+      $("#personName").css("background", "");
+      $('#addPerson').prop('disabled', true);
+    }
   }).fail(function (e) {
     console.log(e);
   });

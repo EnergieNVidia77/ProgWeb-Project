@@ -66,6 +66,13 @@ main .content .ballots {
     overflow-y: scroll;
 }
 
+#listPerson {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    overflow-y: scroll;
+}
+
 th, td {
     padding : 10px;
     text-align: left;

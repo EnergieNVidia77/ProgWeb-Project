@@ -4,6 +4,16 @@
             "usrID": "Admin",
             "usrEmail": "$2y$10$5qZGaHvrVlrVL5mlw6uxcePVit12Sl4tYtKn7YOn.H9vN\/zxoNhjO",
             "usrPassword": "$2y$10$1EYa8VM.cNaUEqqG\/V9xVOdSB4eFPVP1V9lm51T5YvuCAzwKpsNHq"
+        },
+        {
+            "usrID": "Toufic",
+            "usrEmail": "$2y$10$8xRNyfIXnEm2jw\/7zW\/fIuZA52qnABvoV91Ko0ypBv68lNvg56NXS",
+            "usrPassword": "$2y$10$nUd2llR3EtkldGUhu0RgPOwUrQD0USBPhjGJ1EZVUAsox1CAyzJEi"
+        },
+        {
+            "usrID": "Benjamin",
+            "usrEmail": "$2y$10$CRYSsv2.ExRJ8OdroKMzZOUKhK23ycwvwXP5uhJhtcyLklWeVD2RW",
+            "usrPassword": "$2y$10$xhrRr\/t8hkp6kqgx2M6eJerf6LpTr4aBp.lDMS5ud1cff2fEZlvu."
         }
     ]
 }

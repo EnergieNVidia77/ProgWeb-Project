@@ -1,21 +1,33 @@
 {
     "votes": [
         {
-            "voteID": "2e24dc91b6347e2d1004c14ccb206312",
-            "title": "Me president",
+            "voteID": "7462b7d2ed0d15591d073fbcff13c680",
+            "title": "Me for office",
             "question": "Do you vote for me ?",
             "promoter": "Admin",
             "voters": [
                 {
                     "userID": "Admin",
-                    "voted": "false",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Benjamin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Toufic",
+                    "vote": "NULL",
                     "votedProcuration": "false",
                     "procuration": []
                 }
             ],
             "response": [
                 "Yes",
-                "Yes"
+                "No"
             ]
         }
     ]

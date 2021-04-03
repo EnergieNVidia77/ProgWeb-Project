@@ -12,7 +12,7 @@
       $nbGens = count($etu["voters"]);
       $nbVoters = 0;
       foreach($etu["voters"] as $i=>$etu) {
-          if($etu["voted"]!="false") {
+          if($etu["vote"]!="NULL") {
               $nbVoters = $nbVoters + 1;
           }
       }
