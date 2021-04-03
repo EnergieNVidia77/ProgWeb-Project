@@ -4,7 +4,7 @@ function displayBallots(){
       url: "../php/searchBallot.php",
     }).done(function(obj) {
       for (bal of obj){
-          $("#list").append("<tr><td>"+bal.title+"</td><td>"+bal.promoter+"</td><td>"+bal.pr+"</td><td><button type='button' id='checkBtn'>Check</button></td></tr>");
+          $("#list").append("<tr><td>"+bal.title+"</td><td>"+bal.promoter+"</td><td>"+bal.pr+"</td><td><button id='checkBtn' value='"+ bal.voteID +"' >Check</button></td></tr>");
       }
 
     }).fail(function(e) {

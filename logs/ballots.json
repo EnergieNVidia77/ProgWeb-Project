@@ -1,38 +1,39 @@
 {
     "votes": [
         {
-            "voteID": "qsfsgsgqf",
-            "title": "Chocolat ou chocolatinee ?",
-            "promoter": "Admin",
-            "voters": [
-                {
-                    "userID": "Admin",
-                    "vote": "NULL",
-                    "nbVote": "1",
-                    "procuration": "NULL"
-                }
-            ],
-            "response": [
-                "Oui",
-                "Non",
-                "M'en bas les couilles"
-            ]
-        },
-        {
-            "voteID": "606766bbedd62",
+            "voteID": "99bfbd0573b92f9bea87c54465e261a6",
             "title": "Me president",
             "promoter": "Admin",
             "voters": [
                 {
                     "userID": "Admin",
-                    "vote": "NULL",
-                    "nbVote": "1",
+                    "voted": "false",
+                    "votedProcuration": "false",
                     "procuration": "NULL"
                 }
             ],
             "response": [
                 "Yes",
                 "No"
+            ]
+        },
+        {
+            "voteID": "380daa94a2af1ff614c5ca526987aa14",
+            "title": "Benjamin is an idiot",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "voted": "false",
+                    "votedProcuration": "false",
+                    "procuration": "NULL"
+                }
+            ],
+            "response": [
+                "Very much",
+                "Damn right",
+                "No he is something beyond",
+                "Come on don't insult idiots"
             ]
         }
     ]
