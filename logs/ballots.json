@@ -29,6 +29,36 @@
                 "Yes",
                 "No"
             ]
+        },
+        {
+            "voteID": "65a0875cf2679ad9adfe3a2a00381492",
+            "title": "Benjamin is stupid",
+            "question": "Is benjamin stupid ?",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Toufic",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Benjamin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                }
+            ],
+            "response": [
+                "Yes",
+                "Yes"
+            ]
         }
     ]
 }

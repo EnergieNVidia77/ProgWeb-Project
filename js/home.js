@@ -125,9 +125,24 @@ function firstStepSaveInfoVote() {
       "arrayOfChoice": arrayOfChoice
     }
   }).done(function (e) {
-    if(e == '1'){
-      console.log("Everything went fine");
+    if(e == 1){
       linkListToLastVotePageSetup();
+    }else{
+      if(e == 2){
+        alert("Please enter a vote title");
+      }
+
+      if(e == 3){
+        alert("Please enter a vote question");
+      }
+
+      if(e == 4){
+        alert("A vote without choice is not a vote");
+      }
+
+      if(e == 99){
+        alert("Oh we have a dictator good comrade but not here put at least two choices even if they're the same 😈");
+      }
     }
   }).fail(function (e) {
     console.log("Error");

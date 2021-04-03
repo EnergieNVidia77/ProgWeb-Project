@@ -1,9 +1,33 @@
 <?php
 
     $CurrentUsrID = $_COOKIE["CurrentUsrID"];
-    $voteTitle = $_POST["voteTitle"];
-    $voteQuestion = $_POST["voteQuestion"];
-    $voteChoices = $_POST["arrayOfChoice"];
+
+    if( $_POST["voteTitle"] != ""){
+        $voteTitle = $_POST["voteTitle"];
+    }else{
+        echo 2;
+        exit();
+    }
+
+    if($_POST["voteQuestion"] != ""){
+        $voteQuestion = $_POST["voteQuestion"];
+    }else{
+        echo 3;
+        exit();
+    }
+    
+    if(isset($_POST["arrayOfChoice"])){
+        $voteChoices = $_POST["arrayOfChoice"];
+    }else{
+        echo 4;
+        exit();
+    }
+
+    if(count($_POST["arrayOfChoice"]) == 1){
+        echo 99;
+        exit();
+    }
+    
     $voteID = md5(uniqid(rand(), true));
 
     $array_of_votes_raw = file_get_contents("../logs/ballots.json");
@@ -24,10 +48,10 @@
     if(isset($_COOKIE['lastVoteID'])) {
         unset($_COOKIE['lastVoteID']);
         setcookie("lastVoteID", $voteID, strtotime("+30 minutes"));
-        echo '1';
+        echo 1;
     }else{
         setcookie("lastVoteID", $voteID, strtotime("+30 minutes"));
-        echo '1';
+        echo 1;
     }
 
 ?>
