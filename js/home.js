@@ -237,20 +237,47 @@ function listMakerPageSetup() {
 
   $('.ballots').append("<div class='listMakerUsrID' style='margin:15px'><div>");
   $('.listMakerUsrID').append("<label>User ID : </label>");
-  $('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder='User ID'>");
+  $('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder='User ID' disabled>");
 
   $('.ballots').append("<div id='BtnWrapperListMaker' style='padding: 3px 3px;border-radius: 5px;margin: 5px;'><div>");
-  $("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()'>Confirm</button>");
-  $("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()'>Add person</button>");
+  $("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()' disabled>Confirm</button>");
+  $("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()' disabled>Add person</button>");
 }
 
 
 function checkNameOfThelist() {
+  let listName_raw = $('#listMakerTitle').val();
 
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
+  
+  let listName_json = listName.concat(json);
+
+  $.ajax({
+    method: "POST",
+    url: "../php/checkListName.php",
+    data: {
+      "fileName": listName_json
+    }
+
+  }).done(function (e) {
+    if(e == 1){
+      $('#listMakerUsrID').prop('disabled', false);
+      $('#confirmListBtn').prop('disabled', false);
+      $('#listMakerTitle').css("background", "lightgreen");
+    }else{
+      $('#listMakerUsrID').prop('disabled', true);
+      $('#listMakerTitle').css("background", "red");
+    }
+
+  }).fail(function (e) {
+
+  });
+  
 }
 
 function addPersonTolist() {
-  
+
 }
 
 function confirmeList() {
