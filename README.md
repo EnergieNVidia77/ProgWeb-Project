@@ -10,4 +10,3 @@ Test MDP = 123456
 
 Notes : 
 
-Changer l'attribut procuration par un array
