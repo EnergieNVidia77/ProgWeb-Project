@@ -1,3 +1,5 @@
+//Display all the ballots on the home screen
+
 function displayBallots(){
     $.ajax({
       dataType: "json",
@@ -18,6 +20,8 @@ function displayBallots(){
 function CreateBallotPageSetup () {
   $(".ballots").empty();
   $(".ballots").append("<h1>Create Ballot :</h1>");
+
+  $('#preMadelistBtn').remove();
 
   $("#BallotSetUp").remove();
   $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
@@ -66,6 +70,7 @@ function homePageSetup() {
 
     $(".content").append("<div class='menu'></div>");
     $(".menu").append("<button id='BallotSetUp' type='button' onclick='CreateBallotPageSetup()'>Create ballot</button>");
+    $(".menu").append("<button id='preMadelistBtn' type='button' onclick='listMakerPageSetup()'>Make a list</button>");
     $(".menu").append("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
 
     $(".content").append("<div class='ballots'></div>");
@@ -81,13 +86,11 @@ function logOut() {
 }
 
 
- // ---------> Don't forget to add 'firstStepSaveInfoVote()' <---------
 
 function nextStepPopup() {
   let confirmed = confirm("If you click OK you will not be able to stop the creation of the vote anymore. Are you sure you want to continue ?");
   if(confirmed == true){
-    firstStepSaveInfoVote()
-    //linkListToLastVotePageSetup()
+    firstStepSaveInfoVote();
   }
 }
 
@@ -171,7 +174,7 @@ function linkListToLastVotePageSetup() {
 
 }
 
-//Verify if the user entered in the adding person to vote creen exist on the plaforme
+//Verify if the user entered in the adding person to vote screen exist on the plaforme
 
 function checkPersonUsrID() {
   let personID = $("#personName").val();
@@ -214,4 +217,42 @@ function linkPersonToLastVote() {
   }).fail(function (e) {
     console.log(e);
   });
+}
+
+//Setup the contructor of pre made list with
+
+function listMakerPageSetup() {
+  $('#BallotSetUp').remove();
+  $('#preMadelistBtn').remove();
+
+  $('.menu').prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>");
+
+  $('.ballots').empty();
+
+  $('.ballots').append("<h1>Make your list</h1>");
+
+  $('.ballots').append("<div class='listMakerName' style='margin:15px'><div>");
+  $('.listMakerName').append("<label>Name of the list : </label>");
+  $('.listMakerName').append("<input type='text' id='listMakerTitle' placeholder='Name of the list' onchange='checkNameOfThelist()'>");
+
+  $('.ballots').append("<div class='listMakerUsrID' style='margin:15px'><div>");
+  $('.listMakerUsrID').append("<label>User ID : </label>");
+  $('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder='User ID'>");
+
+  $('.ballots').append("<div id='BtnWrapperListMaker' style='padding: 3px 3px;border-radius: 5px;margin: 5px;'><div>");
+  $("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()'>Confirm</button>");
+  $("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()'>Add person</button>");
+}
+
+
+function checkNameOfThelist() {
+
+}
+
+function addPersonTolist() {
+  
+}
+
+function confirmeList() {
+
 }
