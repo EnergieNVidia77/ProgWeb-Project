@@ -213,6 +213,9 @@ function linkPersonToLastVote() {
       $("#personName").val('');
       $("#personName").css("background", "");
       $('#addPerson').prop('disabled', true);
+    }else{
+      $("#personName").css("background", "");
+      alert("That person is already on the list");
     }
   }).fail(function (e) {
     console.log(e);
