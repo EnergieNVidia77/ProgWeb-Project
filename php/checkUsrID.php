@@ -17,9 +17,9 @@
     }
 
     if($test){
-        echo 1;
+        echo 1; #No user found
     }else{
-        echo 0;
+        echo 0; #User found
     }
     
 ?>

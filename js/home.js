@@ -236,13 +236,14 @@ function listMakerPageSetup() {
 
   $('.ballots').append("<div class='listMakerUsrID' style='margin:15px'><div>");
   $('.listMakerUsrID').append("<label>User ID : </label>");
-  $('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder='User ID' disabled>");
+  $('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder='User ID' onchange='checkNameList()' disabled>");
 
   $('.ballots').append("<div id='BtnWrapperListMaker' style='padding: 3px 3px;border-radius: 5px;margin: 5px;'><div>");
   $("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()' disabled>Confirm</button>");
   $("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()' disabled>Add person</button>");
 }
 
+//Check if a list has already the name entered
 
 function checkNameOfThelist() {
   let listName_raw = $('#listMakerTitle').val();
@@ -264,21 +265,83 @@ function checkNameOfThelist() {
       $('#listMakerUsrID').prop('disabled', false);
       $('#confirmListBtn').prop('disabled', false);
       $('#listMakerTitle').css("background", "lightgreen");
+      $('.listMakerName').append("<span> List created </span>");
+      $('#listMakerTitle').prop('disabled', true);
+      $('#goBackBtn').prop('disabled', true);
     }else{
       $('#listMakerUsrID').prop('disabled', true);
       $('#listMakerTitle').css("background", "red");
+      $('.listMakerName span').remove();
     }
 
   }).fail(function (e) {
-
+      console.log(e);
   });
   
 }
 
-function addPersonTolist() {
+//Check person exist on the platforme and is not already on the list
 
+function checkNameList(){
+  let listName_raw = $('#listMakerTitle').val();
+
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
+  
+  let listName_json = listName.concat(json);
+
+  let name = $('#listMakerUsrID').val();
+
+  $.ajax({
+    method: "POST",
+    url: "../php/checkPersonNameListMaker.php",
+    data: {
+      'personName': name,
+      'listName': listName_json
+    }
+  }).done(function (e) {
+    if(e == 1){
+      $("#listMakerUsrID").css("background", "lightgreen");
+      $('#addPersonTolistBtn').prop('disabled', false);
+    }else{
+      $("#listMakerUsrID").css("background", "red");
+      $('#addPersonTolistBtn').prop('disabled', true);
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
+}
+
+
+function addPersonTolist() {
+  let listName_raw = $('#listMakerTitle').val();
+
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
+  
+  let listName_json = listName.concat(json);
+
+  let name = $('#listMakerUsrID').val();
+
+  $.ajax({
+    method: "POST",
+    url: "../php/addPersonToPreMadeList.php",
+    data: {
+      'personName': name,
+      'listName': listName_json
+    }
+  }).done(function (e) {
+    $('#addPersonTolistBtn').prop('disabled', true);
+    $('#listMakerUsrID').val("");
+    $("#listMakerUsrID").css("background", "");
+  }).fail(function (e) {
+    console.log(e);
+  });
 }
 
 function confirmeList() {
-
+  let test = confirm("Are you sure ? You won't be able to modify this list anymore");
+  if(test){
+    homePageSetup();
+  }
 }
