@@ -49,14 +49,14 @@ function CreateBallotPageSetup () {
 
 function addOptionItem(){
   let nbChoice = document.getElementById('optionItem').children.length + 1;
-  if(nbChoice > 1){
-    nbChoice = Math.round(nbChoice / 2);
-  }
+
   if(nbChoice < 8){
-    $(".optionItem").append("<label>Choice " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
+    $(".optionItem").append("<div id='optionWrapper"+ nbChoice +"'></div>");
+    $("#optionWrapper"+ nbChoice +"").append("<label>Choice " + nbChoice + " : </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
   }
   if(nbChoice == 8){
-    $(".optionItem").append("<label>Choice " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
+    $(".optionItem").append("<div id='optionWrapper"+ nbChoice+"'></div>");
+    $("#optionWrapper"+ nbChoice +"").append("<label>Choice " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
 
     //Disabeling button
     $('#addChoiceBtn').prop('disabled', true);
@@ -76,7 +76,7 @@ function homePageSetup() {
     $(".content").append("<div class='ballots'></div>");
     $('.ballots').append("<h1>Ballots</h1>");
     $('.ballots').append(" <table id ='list'></table>");
-    $('#list').append("<tr><th>Title</th><th>Promoter</th><th>Participation rate</th></tr>");
+    $('#list').append("<tr><th>Title</th><th>Promoter</th><th>Participation rate</th><th> </th></tr>");
     displayBallots();
 }
 
@@ -97,22 +97,18 @@ function nextStepPopup() {
 //Register and save all the infos on the create ballot first page
 
 function firstStepSaveInfoVote() {
-  let nbChoice = document.getElementById('optionItem').children.length + 1;
-  if(nbChoice > 1){
-    nbChoice = Math.round(nbChoice / 2) - 1;
-  }
-  let allOptionItem = document.getElementById('optionItem').children;
+  let nbChoice = document.getElementById('optionItem').children.length;
 
   let arrayOfChoice = [];
 
-  for (input of allOptionItem){
-    if(input.tagName === "INPUT"){
+  for(let i = 1; i <= nbChoice; i++){
       let hTag = "#";
-      let id_raw = String(input.id);
-      let id = hTag.concat(id_raw);
+      let number = i.toString(); 
+      let id_raw = "optionItem";
+      let tmp_id = id_raw.concat(number);
+      let id = hTag.concat(tmp_id);
       let val = $(id).val();
       arrayOfChoice.push(val);
-    }
   }
 
   let voteTitle = $('#voteTitle').val();
@@ -209,7 +205,7 @@ function linkPersonToLastVote() {
   }).done(function (e) {
     if(e == 1){
       let personAdded = $("#personName").val();
-      $("#listPerson").append("<span>  - "+ personAdded +"</span>");
+      $("#listPerson").append("<span style='font-size=20px'>  - "+ personAdded +"</span>");
       $("#personName").val('');
       $("#personName").css("background", "");
       $('#addPerson').prop('disabled', true);
