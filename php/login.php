@@ -25,9 +25,14 @@
             if($test){
                 if(!isset($_COOKIE["CurrentUsrID"])){
                     setcookie("CurrentUsrID", $usrID, strtotime("+2 day"));
+                    echo 1;
+                    exit();
+                }else{
+                    unset($_COOKIE["CurrentUsrID"]);
+                    setcookie("CurrentUsrID", $usrID, strtotime("+2 day"));
+                    echo 1;
+                    exit();
                 }
-                echo 1;
-                exit();
             }else{
                 echo 0;
                 exit();
