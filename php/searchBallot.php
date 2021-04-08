@@ -3,23 +3,32 @@
   $data = json_decode($jsonString, true);
 
   $result = array();
-
-  foreach ($data["votes"] as $i=>$etu){
-      $title = $etu["title"];
-      $promoter = $etu["promoter"];
-      $voteID = $etu["voteID"];
-
-      $nbGens = count($etu["voters"]);
-      $nbVoters = 0;
-      foreach($etu["voters"] as $i=>$etu) {
-          if($etu["vote"]!="NULL") {
-              $nbVoters = $nbVoters + 1;
-          }
-      }
-
-      $pr = ($nbVoters/$nbGens)*100;
-      array_push($result, array("title"=>$title,"promoter"=>$promoter,"pr"=>$pr, "voteID" => $voteID));
+  
+  if(isset($_COOKIE["CurrentUsrID"])) {
+    foreach ($data["votes"] as $i=>$etu) {
+        $display = false;
+        $nbVoters = 0;
+        foreach($etu["voters"] as $j=>$voter) {
+            if($voter["vote"]!="NULL") {
+                $nbVoters = $nbVoters + 1;
+            }
+            if($voter["userID"]==$_COOKIE["CurrentUsrID"]) {
+                $display = true;
+            }
+        }
+        if($display==true) {
+            $title = $etu["title"];
+            $promoter = $etu["promoter"];
+            $voteID = $etu["voteID"];
+        
+            $nbGens = count($etu["voters"]);
+    
+            
+            $pr = ($nbVoters/$nbGens)*100;
+            array_push($result, array("title"=>$title,"promoter"=>$promoter,"pr"=>$pr, "voteID" => $voteID));
+        }
     }
+  }
 
     $foundJsonString = json_encode($result);
     echo $foundJsonString;

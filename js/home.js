@@ -6,7 +6,7 @@ function displayBallots(){
       url: "../php/searchBallot.php",
     }).done(function(obj) {
       for (bal of obj){
-          $("#list").append("<tr><td>"+bal.title+"</td><td>"+bal.promoter+"</td><td>"+bal.pr+"</td><td><button id='checkBtn' value='"+ bal.voteID +"' >Check</button></td></tr>");
+          $("#list").append("<tr><td>"+bal.title+"</td><td>"+bal.promoter+"</td><td>"+bal.pr+"</td><td><button id='checkBtn' value='"+bal.voteID+"' onclick='CreateBallotPageCheck(value)'>Check</button></td></tr>");
       }
 
     }).fail(function(e) {
@@ -15,8 +15,81 @@ function displayBallots(){
     });
 }
 
-//Begin the vote creation
+function CreateBallotPageCheck (voteID) {
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/checkBallots.php",
+    data: {
+      "voteID": voteID
+    }
+  }).done(function(obj) {
+    $(".ballots").empty();
+    $(".ballots").append("<h1>"+obj.title+"</h1>");
+    $(".ballots").append("<h2>"+obj.question+"</h2>");
+    $(".ballots").append("<table id ='list'>");
+    $("#list").append("<tr><th>Voter</th><th>Vote</th><th>Made a proxy</th><th>Number of proxies</th></tr>");
+    for(voter of obj.voters) {
+      $("#list").append("<tr><td>"+voter.userID+"</td><td>"+voter.vote+"</td><td>"+voter.votedProcuration+"</td><td>"+voter.procuration.length+"</td></tr>");
+    }
+  
+    $('#preMadelistBtn').remove();
+  
+    $("#BallotSetUp").remove();
 
+    $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
+  
+    $(".ballots").append("<div class='optionSection'></div>");
+  
+  
+    $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+  
+    $(".optionSection").append("<div id='BtnWrapper'></div>");
+    if(obj.userVote.vote=="NULL" && obj.userVote.votedProcuration=="false") {
+      $("#BtnWrapper").append("<button type='button' id='vote' onclick='vote("+voteID+")'>Vote</button>");
+      $("#BtnWrapper").append("<button type='button' id='makeProxy' onclick='makeProxy()'>Make proxy</button>");
+    }
+    if(obj.role > 1) {
+      $("#BtnWrapper").prepend("<button type='button' id='closeBallot' onclick='closeBallot()'>Close Ballot</button>");
+      $("#BtnWrapper").prepend("<button type='button' id='addList' onclick='addList()'>Add List</button>");
+    }
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
+}
+
+function CreateVotePage(voteID) {
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/checkBallots.php",
+    data: {
+      "voteID": voteID
+    }
+  }).done(function(obj) {
+    $(".ballots").empty();
+    $(".ballots").append("<h1>"+obj.title+"</h1>");
+    $(".ballots").append("<h2>"+obj.question+"</h2>");
+  
+    $('#preMadelistBtn').remove();
+  
+    $("#BallotSetUp").remove();
+
+    $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='CreateBallotPageCheck("+voteID+")'>Go back</button>")
+  
+    $(".ballots").append("<div class='optionSection'></div>");
+  
+    $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+  
+    $(".optionSection").append("<div id='BtnWrapper'></div>");
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
+}
+
+//Begin the vote creation
 function CreateBallotPageSetup () {
   $(".ballots").empty();
   $(".ballots").append("<h1>Create Ballot :</h1>");

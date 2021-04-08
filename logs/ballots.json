@@ -34,7 +34,7 @@
             "voteID": "65a0875cf2679ad9adfe3a2a00381492",
             "title": "Benjamin is stupid",
             "question": "Is benjamin stupid ?",
-            "promoter": "Admin",
+            "promoter": "Toufic",
             "voters": [
                 {
                     "userID": "Admin",
@@ -58,6 +58,24 @@
             "response": [
                 "Yes",
                 "Yes"
+            ]
+        },
+        {
+            "voteID": "dc89888a04fbaa2247fe5e312320308a",
+            "title": "Voter Alpaga",
+            "question": "Voulez-vous voter pour Jean-Mi",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                }
+            ],
+            "response": [
+                "Yas queen",
+                "Hell no"
             ]
         }
     ]
