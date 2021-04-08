@@ -90,11 +90,13 @@ function CreateVotePage(voteID) {
 }
 
 //Begin the vote creation
+
 function CreateBallotPageSetup () {
   $(".ballots").empty();
   $(".ballots").append("<h1>Create Ballot :</h1>");
 
   $('#preMadelistBtn').remove();
+  $("#supprPreMadeList").remove();
 
   $("#BallotSetUp").remove();
   $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
@@ -144,6 +146,7 @@ function homePageSetup() {
     $(".content").append("<div class='menu'></div>");
     $(".menu").append("<button id='BallotSetUp' type='button' onclick='CreateBallotPageSetup()'>Create ballot</button>");
     $(".menu").append("<button id='preMadelistBtn' type='button' onclick='listMakerPageSetup()'>Make a list</button>");
+    $(".menu").append("<button id='supprPreMadeList' type='button' onclick='deleteListPageSetup()'>Delete a list</button>");
     $(".menu").append("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
 
     $(".content").append("<div class='ballots'></div>");
@@ -278,7 +281,7 @@ function linkPersonToLastVote() {
   }).done(function (e) {
     if(e == 1){
       let personAdded = $("#personName").val();
-      $("#listPerson").append("<span style='font-size=20px'>  - "+ personAdded +"</span>");
+      $("#listPerson").append("<tr id='row"+ personAdded +"'><td>"+ personAdded +"</td> <td> <button type='button' id='supprPerson' value='"+ personAdded +"' onclick='supprPerson(value)' >❌</td></tr>");
       $("#personName").val('');
       $("#personName").css("background", "");
       $('#addPerson').prop('disabled', true);
@@ -291,11 +294,27 @@ function linkPersonToLastVote() {
   });
 }
 
+//Suppression of person in the list of the vote just created
+
+function supprPerson(personID) {
+  let personID2 = personID;
+  $.ajax({
+    method: "POST",
+    url: "../php/supprPersonFromVote.php",
+    data: {"personID": personID2}
+  }).done(function (e) {
+    $("#row"+ personID2 +"").remove();
+  }).fail(function (e) {
+    console.log(e);
+  });
+}
+
 //Setup the contructor of pre made list with
 
 function listMakerPageSetup() {
   $('#BallotSetUp').remove();
   $('#preMadelistBtn').remove();
+  $("#supprPreMadeList").remove();
 
   $('.menu').prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>");
 
@@ -417,4 +436,61 @@ function confirmeList() {
   if(test){
     homePageSetup();
   }
+}
+
+function deleteListPageSetup() {
+  $(".ballots").empty();
+  $(".ballots").append("<h1>Delete list :</h1>");
+
+  $('#preMadelistBtn').remove();
+  $("#supprPreMadeList").remove();
+  $("#BallotSetUp").remove();
+  $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>");
+
+  $(".ballots").append("<div class='optionSection'></div>");
+
+  $(".optionSection").append("<div id='PreMadeListDelete'></div>");
+  $("#PreMadeListDelete").append("<label>Name of the list : </label>");
+  $("#PreMadeListDelete").append("<input type='text' id='listDeleteTitle' placeholder='Name of the list' onchange='checkNameOfThelistBis()'>");
+
+  $(".optionSection").append("<div id='BtnWrapper'></div>");
+
+  $("#BtnWrapper").append("<button type='button' id='deleteBtn' onclick='deletePopup()'>Delete</button>");
+}
+
+//Check if the list to be deleted exist
+
+function checkNameOfThelistBis() {
+  let listName_raw = $('#listDeleteTitle').val();
+
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
+  
+  let listName_json = listName.concat(json);
+
+  $.ajax({
+    method: "POST",
+    url: "../php/checkListName.php",
+    data: {
+      "fileName": listName_json
+    }
+
+  }).done(function (e) {
+    if(e == 1){
+      $('#listMakerUsrID').prop('disabled', false);
+      $('#confirmListBtn').prop('disabled', false);
+      $('#listMakerTitle').css("background", "lightgreen");
+      $('.listMakerName').append("<span> List created </span>");
+      $('#listMakerTitle').prop('disabled', true);
+      $('#goBackBtn').prop('disabled', true);
+    }else{
+      $('#listMakerUsrID').prop('disabled', true);
+      $('#listMakerTitle').css("background", "red");
+      $('.listMakerName span').remove();
+    }
+
+  }).fail(function (e) {
+      console.log(e);
+  });
+  
 }

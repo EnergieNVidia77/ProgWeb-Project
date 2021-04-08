@@ -44,6 +44,7 @@ main .content .menu {
 }
 
 main .content .menu button {
+    margin: 5px;
     padding: 5px 10px;
     border-radius: 10px;
 }
@@ -144,3 +145,4 @@ main .content .ballots .optionSection .optionItem {
 #BtnWrapperListMaker button:hover {
     background: lightgreen;
 }
+

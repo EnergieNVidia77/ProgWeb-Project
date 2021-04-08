@@ -59,24 +59,6 @@
                 "Yes",
                 "Yes"
             ]
-        },
-        {
-            "voteID": "dc89888a04fbaa2247fe5e312320308a",
-            "title": "Voter Alpaga",
-            "question": "Voulez-vous voter pour Jean-Mi",
-            "promoter": "Admin",
-            "voters": [
-                {
-                    "userID": "Admin",
-                    "vote": "NULL",
-                    "votedProcuration": "false",
-                    "procuration": []
-                }
-            ],
-            "response": [
-                "Yas queen",
-                "Hell no"
-            ]
         }
     ]
 }
