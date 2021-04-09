@@ -2,6 +2,7 @@
     "votes": [
         {
             "voteID": "7462b7d2ed0d15591d073fbcff13c680",
+            "open": "true",
             "title": "Me for office",
             "question": "Do you vote for me ?",
             "promoter": "Admin",
@@ -10,19 +11,25 @@
                     "userID": "Admin",
                     "vote": "NULL",
                     "votedProcuration": "false",
-                    "procuration": []
+                    "procuration": [],
+                    "nbVote": 1,
+                    "voted": "false"
                 },
                 {
                     "userID": "Benjamin",
                     "vote": "NULL",
                     "votedProcuration": "false",
-                    "procuration": []
+                    "procuration": [],
+                    "nbVote": 1,
+                    "voted": "false"
                 },
                 {
                     "userID": "Toufic",
                     "vote": "NULL",
                     "votedProcuration": "false",
-                    "procuration": []
+                    "procuration": [],
+                    "nbVote": 1,
+                    "voted": "false"
                 }
             ],
             "response": [
@@ -32,6 +39,7 @@
         },
         {
             "voteID": "65a0875cf2679ad9adfe3a2a00381492",
+            "open": "true",
             "title": "Benjamin is stupid",
             "question": "Is benjamin stupid ?",
             "promoter": "Toufic",
@@ -40,19 +48,25 @@
                     "userID": "Admin",
                     "vote": "NULL",
                     "votedProcuration": "false",
-                    "procuration": []
+                    "procuration": [],
+                    "nbVote": 1,
+                    "voted": "false"
                 },
                 {
                     "userID": "Toufic",
                     "vote": "NULL",
                     "votedProcuration": "false",
-                    "procuration": []
+                    "procuration": [],
+                    "nbVote": 1,
+                    "voted": "false"
                 },
                 {
                     "userID": "Benjamin",
                     "vote": "NULL",
                     "votedProcuration": "false",
-                    "procuration": []
+                    "procuration": [],
+                    "nbVote": 1,
+                    "voted": "false"
                 }
             ],
             "response": [

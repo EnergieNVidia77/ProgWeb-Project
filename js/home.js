@@ -15,6 +15,7 @@ function displayBallots(){
   });
 }
 
+//Set up the page containing the informations of the chosen ballot
 function CreateBallotPageCheck (voteID) {
 $.ajax({
   method: "POST",
@@ -39,6 +40,9 @@ $.ajax({
 
   $(".content .menu").empty();
   $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
+  if(obj.role > 1) {
+    $(".content .menu").prepend("<button type='button' id='closeBallot' onclick='closeBallot()'>Close Ballot</button>")
+  }
   $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
 
   $(".ballots").append("<div class='optionSection'></div>");
@@ -51,16 +55,13 @@ $.ajax({
     $("#BtnWrapper").append("<button type='button' id='vote' value="+voteID+" onclick='CreateVotePage(value)'>Vote</button>");
     $("#BtnWrapper").append("<button type='button' id='makeProxy' value="+voteID+" onclick='CreateProxyPage(value)'>Make proxy</button>");
   }
-  if(obj.role > 1) {
-    $("#BtnWrapper").prepend("<button type='button' id='closeBallot' onclick='closeBallot()'>Close Ballot</button>");
-    $("#BtnWrapper").prepend("<button type='button' id='addList' onclick='addList()'>Add List</button>");
-  }
 }).fail(function(e) {
   console.log(e);
   $("#message").html("<span class='ko'> Error: network problem </span>");
 });
 }
 
+//Set up the page with all the vote options of the chosen ballot
 function CreateVotePage(voteID) {
 $.ajax({
   method: "POST",
@@ -76,13 +77,13 @@ $.ajax({
 
   $(".ballots").append("<table id ='list'>");
   if(obj.userVote.vote=="NULL") {
-    $("#list").append("<br><td>-Personal vote : <select id='personal'></select></td>");
+    $("#list").append("<br><br><td>-Personal vote : <select id='personal'></select></td>");
     for(choice of obj.response) {
       $("#personal").append("<option value="+choice+">"+choice+"</option>");
     }
   }
   if(obj.userVote.procuration.length > 0) {
-    $("#list").append("<br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
+    $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
     for(voter of obj.voters) {
       if(voter.userID==obj.userVote.procuration[0]) {
         if(voter.vote=="NULL") {
@@ -96,7 +97,7 @@ $.ajax({
     }
   }
   if(obj.userVote.procuration.length > 1) {
-    $("#list").append("<br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
+    $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
     for(voter of obj.voters) {
       if(voter.userID==obj.userVote.procuration[1]) {
         if(voter.vote=="NULL") {
@@ -130,6 +131,7 @@ $.ajax({
 });
 }
 
+//Save the vote in the ballots.json file 
 function vote() {
 $.ajax({
   method: "POST",
@@ -148,6 +150,7 @@ $.ajax({
 }); 
 }
 
+//Setup the page allowing to make a proxy for the chosen ballot
 function CreateProxyPage(voteID) {
 $.ajax({
   method: "POST",
@@ -162,7 +165,7 @@ $.ajax({
   $(".ballots").append("<h2>"+obj.vote.question+"</h2>");
 
   $(".ballots").append("<table id ='list'>");
-  $("#list").append("<br><td>-Choose the recipient of the proxy : <select id='recipient'></select></td>");
+  $("#list").append("<br><br><td>-Choose the recipient of the proxy : <select id='recipient'></select></td>");
   for(voter of obj.vote.voters) {
     if(voter.procuration.length < 2 && voter.userID!=obj.userID) {
       $("#recipient").append("<option value="+voter.userID+">"+voter.userID+"</option>");
@@ -194,6 +197,7 @@ $.ajax({
 });
 }
 
+//Save the informations of the proxy in the ballots.json file
 function sendProxy() {
 $.ajax({
   method: "POST",
@@ -455,6 +459,47 @@ $('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder=
 $('.ballots').append("<div id='BtnWrapperListMaker' style='padding: 3px 3px;border-radius: 5px;margin: 5px;'><div>");
 $("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()' disabled>Confirm</button>");
 $("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()' disabled>Add person</button>");
+
+$(".ballots").append("<div id='upload_zone'></div>");
+$("#upload_zone").append("<h3>Choose your json file : </h3>")
+$("#upload_zone").append("<input id='file' name='file' type='file'>");
+$("#upload_zone").append("<button type='button' id='uploadBtn' onclick='uploadFile()'>Upload</button>");
+
+
+
+
+
+//$(".ballots").append("<div id='drop_zone' ondragover='dragoverHandler(event);' ondragleave='dragleaveHandler(event);' ondrop='dropHandler(event);'></div>");
+//$("#drop_zone").append("<img src='../img/cloud_icon.svg' alt='Cloud icon'>");
+//$("#drop_zone").append("<header>Drop your list in json here</header>");
+
+}
+
+
+function uploadFile() {
+console.log("Hello");
+
+let file = document.getElementById('file').files[0];
+let filename = file.name;
+let extension = filename.split('.').pop().toLowerCase();
+if(jQuery.inArray(extension, ['json']) == -1){
+  alert("Your file is not a json file");
+  $('#file').val('');
+}else{
+  let formData = new FormData();
+  formData.append("file", file);
+
+  $.ajax({
+    url:"../php/uploadList.php",
+    method: "POST",
+    data: formData,
+    contentType: false,
+    processData: false,
+    success: function(){
+      console.log("Success !!");
+    }
+  })
+}
 }
 
 //Check if a list has already the name entered
@@ -573,46 +618,9 @@ $(".ballots").append("<div class='optionSection'></div>");
 
 $(".optionSection").append("<div id='PreMadeListDelete'></div>");
 $("#PreMadeListDelete").append("<label>Name of the list : </label>");
-$("#PreMadeListDelete").append("<input type='text' id='listDeleteTitle' placeholder='Name of the list' onchange='checkNameOfThelistBis()'>");
+$("#PreMadeListDelete").append("<input type='text' id='listDeleteTitle' placeholder='Name of the list'>");
 
 $(".optionSection").append("<div id='BtnWrapper'></div>");
 
 $("#BtnWrapper").append("<button type='button' id='deleteBtn' onclick='deletePopup()'>Delete</button>");
-}
-
-//Check if the list to be deleted exist
-
-function checkNameOfThelistBis() {
-let listName_raw = $('#listDeleteTitle').val();
-
-let listName = listName_raw.toLowerCase();
-let json = ".json";
-
-let listName_json = listName.concat(json);
-
-$.ajax({
-  method: "POST",
-  url: "../php/checkListName.php",
-  data: {
-    "fileName": listName_json
-  }
-
-}).done(function (e) {
-  if(e == 1){
-    $('#listMakerUsrID').prop('disabled', false);
-    $('#confirmListBtn').prop('disabled', false);
-    $('#listMakerTitle').css("background", "lightgreen");
-    $('.listMakerName').append("<span> List created </span>");
-    $('#listMakerTitle').prop('disabled', true);
-    $('#goBackBtn').prop('disabled', true);
-  }else{
-    $('#listMakerUsrID').prop('disabled', true);
-    $('#listMakerTitle').css("background", "red");
-    $('.listMakerName span').remove();
-  }
-
-}).fail(function (e) {
-    console.log(e);
-});
-
 }
