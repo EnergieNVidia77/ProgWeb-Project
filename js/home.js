@@ -37,6 +37,8 @@ function CreateBallotPageCheck (voteID) {
   
     $("#BallotSetUp").remove();
 
+    $(".content .menu").empty();
+    $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
     $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
   
     $(".ballots").append("<div class='optionSection'></div>");
@@ -46,8 +48,8 @@ function CreateBallotPageCheck (voteID) {
   
     $(".optionSection").append("<div id='BtnWrapper'></div>");
     if(obj.userVote.vote=="NULL" && obj.userVote.votedProcuration=="false") {
-      $("#BtnWrapper").append("<button type='button' id='vote' onclick='vote("+voteID+")'>Vote</button>");
-      $("#BtnWrapper").append("<button type='button' id='makeProxy' onclick='makeProxy()'>Make proxy</button>");
+      $("#BtnWrapper").append("<button type='button' id='vote' value="+voteID+" onclick='CreateVotePage(value)'>Vote</button>");
+      $("#BtnWrapper").append("<button type='button' id='makeProxy' value="+voteID+" onclick='CreateProxyPage(value)'>Make proxy</button>");
     }
     if(obj.role > 1) {
       $("#BtnWrapper").prepend("<button type='button' id='closeBallot' onclick='closeBallot()'>Close Ballot</button>");
@@ -71,18 +73,138 @@ function CreateVotePage(voteID) {
     $(".ballots").empty();
     $(".ballots").append("<h1>"+obj.title+"</h1>");
     $(".ballots").append("<h2>"+obj.question+"</h2>");
+
+    $(".ballots").append("<table id ='list'>");
+    if(obj.userVote.vote=="NULL") {
+      $("#list").append("<br><td>-Personal vote : <select id='personal'></select></td>");
+      for(choice of obj.response) {
+        $("#personal").append("<option value="+choice+">"+choice+"</option>");
+      }
+    }
+    if(obj.userVote.procuration.length > 0) {
+      $("#list").append("<br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
+      for(voter of obj.voters) {
+        if(voter.userID==obj.userVote.procuration[0]) {
+          if(voter.vote=="NULL") {
+            for(choice of obj.response) {
+              $("#first").append("<option value="+choice+">"+choice+"</option>");
+            }
+          } else {
+            $("#first").append("<option value="+voter.vote+">"+voter.vote+"</option>");
+          }
+        }
+      }
+    }
+    if(obj.userVote.procuration.length > 1) {
+      $("#list").append("<br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
+      for(voter of obj.voters) {
+        if(voter.userID==obj.userVote.procuration[1]) {
+          if(voter.vote=="NULL") {
+            for(choice of obj.response) {
+              $("#second").append("<option value="+choice+">"+choice+"</option>");
+            }
+          } else {
+            $("#second").append("<option value="+voter.vote+">"+voter.vote+"</option>");
+          }
+        }
+      }
+    }
   
     $('#preMadelistBtn').remove();
   
     $("#BallotSetUp").remove();
 
-    $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='CreateBallotPageCheck("+voteID+")'>Go back</button>")
+    $(".content .menu").empty();
+    $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
+    $(".content .menu").prepend("<button type='button' id='goBackBtn' value='"+voteID+"' onclick='CreateBallotPageCheck(value)'>Go back</button>");
   
     $(".ballots").append("<div class='optionSection'></div>");
   
     $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
   
     $(".optionSection").append("<div id='BtnWrapper'></div>");
+    $("#BtnWrapper").prepend("<button type='button' id='vote' onclick='vote()'>Confirm vote</button>");
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
+}
+
+function vote() {
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/vote.php",
+    data: {
+      "personal": $('#personal').val(),
+      "first": $('#first').val(),
+      "second": $('#second').val(),
+    }
+  }).done(function (obj) {
+    CreateBallotPageCheck(obj);
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  }); 
+}
+
+function CreateProxyPage(voteID) {
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/checkProxyPage.php",
+    data: {
+      "voteID": voteID
+    }
+  }).done(function(obj) {
+    $(".ballots").empty();
+    $(".ballots").append("<h1>"+obj.vote.title+"</h1>");
+    $(".ballots").append("<h2>"+obj.vote.question+"</h2>");
+
+    $(".ballots").append("<table id ='list'>");
+    $("#list").append("<br><td>-Choose the recipient of the proxy : <select id='recipient'></select></td>");
+    for(voter of obj.vote.voters) {
+      if(voter.procuration.length < 2 && voter.userID!=obj.userID) {
+        $("#recipient").append("<option value="+voter.userID+">"+voter.userID+"</option>");
+      }
+    }
+    $("#list").append("<br><br><td>-Choose the response of the proxy : <select id='response'></select></td>");
+    $("#response").append("<option value='NULL'>The recipient can choose</option>");
+    for(choice of obj.vote.response) {
+      $("#response").append("<option value="+choice+">"+choice+"</option>");
+    }
+  
+    $('#preMadelistBtn').remove();
+  
+    $("#BallotSetUp").remove();
+
+    $(".content .menu").empty();
+    $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
+    $(".content .menu").prepend("<button type='button' id='goBackBtn' value="+voteID+" onclick='CreateBallotPageCheck(value)'>Go back</button>");
+
+    $(".ballots").append("<div class='optionSection'></div>");
+  
+    $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+  
+    $(".optionSection").append("<div id='BtnWrapper'></div>");
+    $("#BtnWrapper").prepend("<button type='button' id='proxy' onclick='sendProxy()'>Send the proxy</button>");
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
+}
+
+function sendProxy() {
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/sendProxy.php",
+    data: {
+      "recipient": $('#recipient').val(),
+      "response": $('#response').val(),
+    }
+  }).done(function (obj) {
+    CreateBallotPageCheck(obj);
   }).fail(function(e) {
     console.log(e);
     $("#message").html("<span class='ko'> Error: network problem </span>");
@@ -95,7 +217,6 @@ function CreateBallotPageSetup () {
   $(".ballots").append("<h1>Create Ballot :</h1>");
 
   $('#preMadelistBtn').remove();
-
   $("#BallotSetUp").remove();
   $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
 

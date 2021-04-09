@@ -2,6 +2,13 @@
   $jsonString = file_get_contents('../logs/ballots.json');
   $data = json_decode($jsonString, true);
 
+  if(!isset($_COOKIE["CurrentVoteID"])){
+    setcookie("CurrentVoteID", $_POST["voteID"], strtotime("+2 day"));
+  }else{
+      unset($_COOKIE["CurrentVoteID"]);
+      setcookie("CurrentVoteID", $_POST["voteID"], strtotime("+2 day"));
+  }
+
   $result;
 
   foreach ($data["votes"] as $i=>$etu){

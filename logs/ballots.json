@@ -77,6 +77,79 @@
                 "Yas queen",
                 "Hell no"
             ]
+        },
+        {
+            "voteID": "1302f63198aff54e91a221cca0383aa0",
+            "title": "Is Toufic awesome?",
+            "question": "Is He Not?",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                }
+            ],
+            "response": [
+                "Yes",
+                "No"
+            ]
+        },
+        {
+            "voteID": "2403bae645481ce444a1e8a7eded55b2",
+            "title": "The answer of the universe",
+            "question": "What is it?",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Toufic",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Benjamin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                }
+            ],
+            "response": [
+                "41641",
+                "42",
+                "311841"
+            ]
+        },
+        {
+            "voteID": "04714f7a78e7eca155a1e49791f6f7d5",
+            "title": "Ahhhhhhh",
+            "question": "Why?",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Benjamin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                }
+            ],
+            "response": [
+                "dictatorship",
+                "democrapy"
+            ]
         }
     ]
 }
