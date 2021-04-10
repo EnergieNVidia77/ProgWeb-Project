@@ -2,6 +2,7 @@
   $jsonString = file_get_contents('../logs/ballots.json');
   $data = json_decode($jsonString, true);
 
+  //Register the ID of the vote in a Cookie
   if(!isset($_COOKIE["CurrentVoteID"])){
     setcookie("CurrentVoteID", $_POST["voteID"], strtotime("+2 day"));
   }else{
@@ -21,10 +22,10 @@
         $role = 0;
         $userVote = null;
         foreach($voters as $j=>$voter) {
-            if($voter["userID"]==$_COOKIE["CurrentUsrID"]) {
-                $role = $role + 1;
-                $userVote = $voter;
-            }
+          if($voter["userID"]==$_COOKIE["CurrentUsrID"]) {
+              $role = $role + 1;
+              $userVote = $voter;
+          }
         }
         if($_COOKIE["CurrentUsrID"]==$etu["promoter"]) {
             $role = $role + 1;
