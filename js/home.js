@@ -6,7 +6,11 @@ function displayBallots(){
     url: "../php/searchBallot.php",
   }).done(function(obj) {
     for (bal of obj){
-        $("#list").append("<tr><td>"+bal.title+"</td><td>"+bal.promoter+"</td><td>"+bal.pr+"</td><td><button id='checkBtn' value='"+bal.voteID+"' onclick='CreateBallotPageCheck(value)'>Check</button></td></tr>");
+      $voting = "Closed";
+      if(bal.open=="true") {
+        $voting = "Open";
+      }
+      $("#list").append("<tr><td>"+bal.title+"</td><td>"+bal.promoter+"</td><td>"+Math.round((bal.pr)*100)/100+"%</td><td>"+$voting+"</td><td><button id='checkBtn' value='"+bal.voteID+"' onclick='CreateBallotPageCheck(value)'>Check</button></td></tr>");
     }
 
   }).fail(function(e) {
@@ -28,10 +32,35 @@ $.ajax({
   $(".ballots").empty();
   $(".ballots").append("<h1>"+obj.title+"</h1>");
   $(".ballots").append("<h2>"+obj.question+"</h2>");
-  $(".ballots").append("<table id ='list'>");
-  $("#list").append("<tr><th>Voter</th><th>Vote</th><th>Made a proxy</th><th>Number of proxies</th></tr>");
-  for(voter of obj.voters) {
-    $("#list").append("<tr><td>"+voter.userID+"</td><td>"+voter.vote+"</td><td>"+voter.votedProcuration+"</td><td>"+voter.procuration.length+"</td></tr>");
+  if(obj.open=="true") {
+    if(obj.role > 1) {
+      $(".ballots").append("<table id ='list'>");
+      $("#list").append("<tr><th>Voter</th><th>Made a proxy to</th><th>Proxies of</th></tr>");
+      for(voter of obj.voters) {
+        $recipient = voter.votedProcuration;
+        if($recipient=="NULL") {
+          $recipient = "Nobody"
+        }
+        $proxy = voter.procuration;
+        if($proxy.length==0) {
+          $proxy = "Nobody";
+        }
+        $("#list").append("<tr><td>"+voter.userID+"</td><td>"+$recipient+"</td><td>"+$proxy+"</td></tr>");
+      }
+    }
+  } else {
+    $(".ballots").append("<table id ='list'>");
+    $("#list").append("<tr><th>Response</th><th>In absolute number</th><th>In percentage</th></tr>");
+    for(choice of obj.response) {
+      $number = 0;
+      for(voter of obj.voters) {
+        if(voter.voted=="true" && voter.vote==choice) {
+          $number = $number + 1;
+        }
+      }
+      $percentage = ($number/obj.voters.length)*100
+      $("#list").append("<tr><td>"+choice+"</td><td>"+$number+"</td><td>"+Math.round($percentage*100)/100+"%</td></tr>");
+    }
   }
 
   $('#preMadelistBtn').remove();
@@ -40,20 +69,21 @@ $.ajax({
 
   $(".content .menu").empty();
   $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
-  if(obj.role > 1) {
+  if(obj.role > 1 && obj.open=="true") {
     $(".content .menu").prepend("<button type='button' id='closeBallot' onclick='closeBallot()'>Close Ballot</button>")
   }
   $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
 
-  $(".ballots").append("<div class='optionSection'></div>");
+  if(obj.userVote.nbVote > 0 && obj.open=="true") {
+    $(".ballots").append("<div class='optionSection'></div>");
 
-
-  $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
-
-  $(".optionSection").append("<div id='BtnWrapper'></div>");
-  if(obj.userVote.vote=="NULL" && obj.userVote.votedProcuration=="false") {
+    $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+  
+    $(".optionSection").append("<div id='BtnWrapper'></div>");
     $("#BtnWrapper").append("<button type='button' id='vote' value="+voteID+" onclick='CreateVotePage(value)'>Vote</button>");
-    $("#BtnWrapper").append("<button type='button' id='makeProxy' value="+voteID+" onclick='CreateProxyPage(value)'>Make proxy</button>");
+    if(obj.userVote.votedProcuration=="NULL") {
+      $("#BtnWrapper").append("<button type='button' id='makeProxy' onclick='CreateProxyPage()'>Make proxy</button>");
+    }
   }
 }).fail(function(e) {
   console.log(e);
@@ -151,14 +181,11 @@ $.ajax({
 }
 
 //Setup the page allowing to make a proxy for the chosen ballot
-function CreateProxyPage(voteID) {
+function CreateProxyPage() {
 $.ajax({
   method: "POST",
   dataType: "json",
-  url: "../php/checkProxyPage.php",
-  data: {
-    "voteID": voteID
-  }
+  url: "../php/checkProxyPage.php"
 }).done(function(obj) {
   $(".ballots").empty();
   $(".ballots").append("<h1>"+obj.vote.title+"</h1>");
@@ -183,7 +210,7 @@ $.ajax({
 
   $(".content .menu").empty();
   $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
-  $(".content .menu").prepend("<button type='button' id='goBackBtn' value="+voteID+" onclick='CreateBallotPageCheck(value)'>Go back</button>");
+  $(".content .menu").prepend("<button type='button' id='goBackBtn' value="+obj.voteID+" onclick='CreateBallotPageCheck(value)'>Go back</button>");
 
   $(".ballots").append("<div class='optionSection'></div>");
 
@@ -199,20 +226,33 @@ $.ajax({
 
 //Save the informations of the proxy in the ballots.json file
 function sendProxy() {
-$.ajax({
-  method: "POST",
-  dataType: "json",
-  url: "../php/sendProxy.php",
-  data: {
-    "recipient": $('#recipient').val(),
-    "response": $('#response').val(),
-  }
-}).done(function (obj) {
-  CreateBallotPageCheck(obj);
-}).fail(function(e) {
-  console.log(e);
-  $("#message").html("<span class='ko'> Error: network problem </span>");
-});
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/sendProxy.php",
+    data: {
+      "recipient": $('#recipient').val(),
+      "response": $('#response').val(),
+    }
+  }).done(function (obj) {
+    CreateBallotPageCheck(obj);
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
+}
+
+function closeBallot() {
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/closeBallot.php",
+  }).done(function (obj) {
+    CreateBallotPageCheck(obj);
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
 }
 
 //Begin the vote creation
@@ -278,7 +318,7 @@ function homePageSetup() {
   $(".content").append("<div class='ballots'></div>");
   $('.ballots').append("<h1>Ballots</h1>");
   $('.ballots').append(" <table id ='list'></table>");
-  $('#list').append("<tr><th>Title</th><th>Promoter</th><th>Participation rate</th><th> </th></tr>");
+  $('#list').append("<tr><th>Title</th><th>Promoter</th><th>Participation rate</th><th>Voting</th><th></th></tr>");
   displayBallots();
 }
 

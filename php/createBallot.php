@@ -33,7 +33,7 @@
     $array_of_votes_raw = file_get_contents("../logs/ballots.json");
     $array_of_votes = json_decode($array_of_votes_raw, true);
 
-    $own_registration = array("userID" => $CurrentUsrID, "vote" => "NULL", "votedProcuration" => "false", "procuration" => array(), "nbVote" => 1, "voted" => "false");
+    $own_registration = array("userID" => $CurrentUsrID, "vote" => "NULL", "votedProcuration" => "NULL", "procuration" => array(), "nbVote" => 1, "voted" => "false");
 
     $vote = array(0 => array("voteID" => $voteID, "open" => "true", "title" => $voteTitle, "question" => $voteQuestion,"promoter" => $CurrentUsrID, "voters" => array($own_registration), "response" => $voteChoices));
 

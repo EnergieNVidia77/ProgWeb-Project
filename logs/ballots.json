@@ -10,7 +10,7 @@
                 {
                     "userID": "Admin",
                     "vote": "NULL",
-                    "votedProcuration": "false",
+                    "votedProcuration": "NULL",
                     "procuration": [],
                     "nbVote": 1,
                     "voted": "false"
@@ -18,7 +18,7 @@
                 {
                     "userID": "Benjamin",
                     "vote": "NULL",
-                    "votedProcuration": "false",
+                    "votedProcuration": "NULL",
                     "procuration": [],
                     "nbVote": 1,
                     "voted": "false"
@@ -26,7 +26,7 @@
                 {
                     "userID": "Toufic",
                     "vote": "NULL",
-                    "votedProcuration": "false",
+                    "votedProcuration": "NULL",
                     "procuration": [],
                     "nbVote": 1,
                     "voted": "false"
@@ -47,7 +47,7 @@
                 {
                     "userID": "Admin",
                     "vote": "NULL",
-                    "votedProcuration": "false",
+                    "votedProcuration": "NULL",
                     "procuration": [],
                     "nbVote": 1,
                     "voted": "false"
@@ -55,7 +55,7 @@
                 {
                     "userID": "Toufic",
                     "vote": "NULL",
-                    "votedProcuration": "false",
+                    "votedProcuration": "NULL",
                     "procuration": [],
                     "nbVote": 1,
                     "voted": "false"
@@ -63,7 +63,7 @@
                 {
                     "userID": "Benjamin",
                     "vote": "NULL",
-                    "votedProcuration": "false",
+                    "votedProcuration": "NULL",
                     "procuration": [],
                     "nbVote": 1,
                     "voted": "false"
