@@ -9,7 +9,7 @@
   }
 
   $fp = fopen('../logs/ballots.json', 'w');
-  fwrite($fp, json_encode($data));
+  fwrite($fp, json_encode($data, JSON_PRETTY_PRINT));
   fclose($fp);
 
   $foundJsonString = json_encode($_COOKIE["CurrentVoteID"]);
