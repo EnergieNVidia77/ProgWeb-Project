@@ -26,15 +26,16 @@
 
     for($i = 0; $i < count($ballots["votes"]); $i++){
         if($ballots["votes"][$i]["voteID"] == $currentVote){
-            $array_of_voters = array();
+            $new_voter = array();
             for($j = 0; $j < count($array_of_people); $j++){
                 $test = checkUser($array_of_people[$j], $ballots["votes"][$i]["voters"]);
                 if($test == false){
-                    $new_voter = array("userID" => $array_of_people[$j], "vote" => "NULL", "votedProcuration" => "NULL", "procuration" => array(), "nbVote" => 1, "voted" => "false");
-                    array_push($array_of_voters, $new_voter);
+                    array_push($new_voter, array("userID" => $array_of_people[$j], "vote" => "NULL", "votedProcuration" => "NULL", "procuration" => array(), "nbVote" => 1, "voted" => "false"));
+                }else{
+                    unset($array_of_people[$j]);
                 }
             }
-            $ballots["votes"][$i]["voters"] = array_merge($ballots["votes"][$i]["voters"], $array_of_voters);
+            $ballots["votes"][$i]["voters"] = array_merge($ballots["votes"][$i]["voters"],$new_voter);
 
             $ballots_json = json_encode($ballots, JSON_PRETTY_PRINT);
             file_put_contents('../logs/ballots.json', $ballots_json);
