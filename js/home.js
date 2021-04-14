@@ -54,6 +54,8 @@ $.ajax({
         //Fill the table with the ID of each voters and the proxies that they received or sent
         $("#list").append("<tr><td>"+voter.userID+"</td><td>"+$recipient+"</td><td>"+$proxy+"</td></tr>");
       }
+    } else {
+      $(".ballots").append("<br><br><br><br><h3>Come back later when the vote is closed.</h3>");
     }
   } else {
     //If the vote is closed, write a table containing the results of the vote

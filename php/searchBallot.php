@@ -9,7 +9,7 @@
         $display = false;
         $nbVoters = 0;
         foreach($etu["voters"] as $j=>$voter) {
-            if($voter["vote"]!="NULL") {
+            if($voter["voted"]=="true") {
                 $nbVoters = $nbVoters + 1;
             }
             if($voter["userID"]==$_COOKIE["CurrentUsrID"]) {
