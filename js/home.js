@@ -136,9 +136,9 @@ $.ajax({
   }
   //If the user has one or two proxies, write the appropriate number of lines with with the different options that he can select
   if(obj.userVote.procuration.length > 0) {
-    $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
     for(voter of obj.voters) {
-      if(voter.userID==obj.userVote.procuration[0]) {
+      if(voter.userID==obj.userVote.procuration[0] && voter.votedProcuration=="false") {
+        $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
         if(voter.vote=="NULL") {
           for(choice of obj.response) {
             $("#first").append("<option value="+choice+">"+choice+"</option>");
@@ -150,9 +150,9 @@ $.ajax({
     }
   }
   if(obj.userVote.procuration.length > 1) {
-    $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
     for(voter of obj.voters) {
-      if(voter.userID==obj.userVote.procuration[1]) {
+      if(voter.userID==obj.userVote.procuration[1] && voter.votedProcuration=="false") {
+        $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
         if(voter.vote=="NULL") {
           for(choice of obj.response) {
             $("#second").append("<option value="+choice+">"+choice+"</option>");
@@ -225,7 +225,7 @@ $.ajax({
   //Write a line to allow the user to select a possible recipient for its proxy
   $("#list").append("<br><br><td>-Choose the recipient of the proxy : <select id='recipient'></select></td>");
   for(voter of obj.vote.voters) {
-    if(voter.procuration.length < 2 && voter.userID!=obj.userID) {
+    if(voter.procuration.length < 2 && voter.userID!=obj.userID && voter.votedProcuration=="NULL") {
       $("#recipient").append("<option value="+voter.userID+">"+voter.userID+"</option>");
     }
   }
