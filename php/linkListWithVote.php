@@ -13,7 +13,7 @@
         return false;
     }
 
-    $new_voters = array(0=> array("userID" => $personID, "vote" => "NULL", "votedProcuration" => "false", "procuration" => array()));
+    $new_voters = array(0=> array("userID" => $personID, "vote" => "NULL", "votedProcuration" => "NULL", "procuration" => array(), "nbVote" => 1, "voted" => "false"));
 
     $votes_logs_raw = file_get_contents("../logs/ballots.json");
     $votes_logs_JSON = json_decode($votes_logs_raw, true);

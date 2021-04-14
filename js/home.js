@@ -292,50 +292,50 @@ function closeBallot() {
 //Begin the vote creation
 
 function CreateBallotPageSetup () {
-$(".ballots").empty();
-$(".ballots").append("<h1>Create Ballot :</h1>");
+  $(".ballots").empty();
+  $(".ballots").append("<h1>Create Ballot :</h1>");
 
-$('#preMadelistBtn').remove();
-$("#supprPreMadeList").remove();
+  $('#preMadelistBtn').remove();
+  $("#supprPreMadeList").remove();
 
-$("#BallotSetUp").remove();
-$(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
+  $("#BallotSetUp").remove();
+  $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
 
-$(".ballots").append("<div class='optionSection'></div>");
+  $(".ballots").append("<div class='optionSection'></div>");
 
-$(".optionSection").append("<div class='voteTitle'></div>");
-$(".voteTitle").append("<label>Title of the vote : </label>");
-$(".voteTitle").append("<input type='text' id='voteTitle' placeholder='Title of the vote'>");
+  $(".optionSection").append("<div class='voteTitle'></div>");
+  $(".voteTitle").append("<label>Title of the vote : </label>");
+  $(".voteTitle").append("<input type='text' id='voteTitle' placeholder='Title of the vote'>");
 
-$(".optionSection").append("<div class='voteQuestion'></div>");
-$(".voteQuestion").append("<label>Question : </label>");
-$(".voteQuestion").append("<input type='text' id='voteQuestion' placeholder='Question ?'>");
+  $(".optionSection").append("<div class='voteQuestion'></div>");
+  $(".voteQuestion").append("<label>Question : </label>");
+  $(".voteQuestion").append("<input type='text' id='voteQuestion' placeholder='Question ?'>");
 
-$(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+  $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
 
-$(".optionSection").append("<div id='BtnWrapper'></div>");
+  $(".optionSection").append("<div id='BtnWrapper'></div>");
 
-$("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='nextStepPopup()'>Next step</button>");
-$("#BtnWrapper").append("<button type='button' id='addChoiceBtn' onclick='addOptionItem()'>Add choice</button>");
+  $("#BtnWrapper").append("<button type='button' id='nextStepBtn' onclick='nextStepPopup()'>Next step</button>");
+  $("#BtnWrapper").append("<button type='button' id='addChoiceBtn' onclick='addOptionItem()'>Add choice</button>");
 
 }
 
 //Add choices to the vote
 
 function addOptionItem(){
-let nbChoice = document.getElementById('optionItem').children.length + 1;
+  let nbChoice = document.getElementById('optionItem').children.length + 1;
 
-if(nbChoice < 8){
-  $(".optionItem").append("<div id='optionWrapper"+ nbChoice +"'></div>");
-  $("#optionWrapper"+ nbChoice +"").append("<label>Choice " + nbChoice + " : </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
-}
-if(nbChoice == 8){
-  $(".optionItem").append("<div id='optionWrapper"+ nbChoice+"'></div>");
-  $("#optionWrapper"+ nbChoice +"").append("<label>Choice " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
+  if(nbChoice < 8){
+    $(".optionItem").append("<div id='optionWrapper"+ nbChoice +"'></div>");
+    $("#optionWrapper"+ nbChoice +"").append("<label>Choice " + nbChoice + " : </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
+  }
+  if(nbChoice == 8){
+    $(".optionItem").append("<div id='optionWrapper"+ nbChoice +"'></div>");
+    $("#optionWrapper"+ nbChoice +"").append("<label>Choice " + nbChoice + ": </label> <input type='text' id='optionItem"+ nbChoice +"' placeholder='Choice "+ nbChoice +"'>");
 
-  //Disabeling button
-  $('#addChoiceBtn').prop('disabled', true);
-}
+    //Disabeling button
+    $('#addChoiceBtn').prop('disabled', true);
+  }
 }
 
 //Go back to the home page from the vote creation screen
@@ -357,94 +357,134 @@ function homePageSetup() {
 }
 
 function logOut() {
-console.log("You've logged out !");
-window.location = "./login.html";
-}
+  console.log("You've logged out !");
+  window.location = "./login.html";
+  }
 
 
 
-function nextStepPopup() {
-let confirmed = confirm("If you click OK you will not be able to stop the creation of the vote anymore. Are you sure you want to continue ?");
-if(confirmed == true){
-  firstStepSaveInfoVote();
+  function nextStepPopup() {
+  let confirmed = confirm("If you click OK you will not be able to stop the creation of the vote anymore. Are you sure you want to continue ?");
+  if(confirmed == true){
+    firstStepSaveInfoVote();
 }
 }
 
 //Register and save all the infos on the create ballot first page
 
 function firstStepSaveInfoVote() {
-let nbChoice = document.getElementById('optionItem').children.length;
+  let nbChoice = document.getElementById('optionItem').children.length;
 
-let arrayOfChoice = [];
+  let arrayOfChoice = [];
 
-for(let i = 1; i <= nbChoice; i++){
-    let hTag = "#";
-    let number = i.toString(); 
-    let id_raw = "optionItem";
-    let tmp_id = id_raw.concat(number);
-    let id = hTag.concat(tmp_id);
-    let val = $(id).val();
-    arrayOfChoice.push(val);
-}
-
-let voteTitle = $('#voteTitle').val();
-let voteQuestion = $('#voteQuestion').val();
-
-$.ajax({
-  method: "POST",
-  dataType: "json",
-  url: "../php/createBallot.php",
-  data: {
-    "voteTitle": voteTitle,
-    "voteQuestion": voteQuestion,
-    "arrayOfChoice": arrayOfChoice
+  for(let i = 1; i <= nbChoice; i++){
+      let hTag = "#";
+      let number = i.toString(); 
+      let id_raw = "optionItem";
+      let tmp_id = id_raw.concat(number);
+      let id = hTag.concat(tmp_id);
+      let val = $(id).val();
+      arrayOfChoice.push(val);
   }
-}).done(function (e) {
-  if(e == 1){
-    linkListToLastVotePageSetup();
-  }else{
-    if(e == 2){
-      alert("Please enter a vote title");
-    }
 
-    if(e == 3){
-      alert("Please enter a vote question");
-    }
+  let voteTitle = $('#voteTitle').val();
+  let voteQuestion = $('#voteQuestion').val();
 
-    if(e == 4){
-      alert("A vote without choices is not a vote");
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/createBallot.php",
+    data: {
+      "voteTitle": voteTitle,
+      "voteQuestion": voteQuestion,
+      "arrayOfChoice": arrayOfChoice
     }
+  }).done(function (e) {
+    if(e == 1){
+      linkListToLastVotePageSetup();
+    }else{
+      if(e == 2){
+        alert("Please enter a vote title");
+      }
 
-    if(e == 99){
-      alert("Oh we have a dictator, good comrade but not here, put at least two choices even if they're the same 😈");
+      if(e == 3){
+        alert("Please enter a vote question");
+      }
+
+      if(e == 4){
+        alert("A vote without choices is not a vote");
+      }
+
+      if(e == 99){
+        alert("Oh we have a dictator, good comrade but not here, put at least two choices even if they're the same 😈");
+      }
     }
-  }
-}).fail(function (e) {
-  console.log("Error");
-});
+  }).fail(function (e) {
+    console.log("Error");
+  });
 }
 
 //Set up the HTML for adding persons to the vote created just before 
 
 function linkListToLastVotePageSetup() {
 
-$('#goBackBtn').prop('disabled', true);
-$('.logout-btn').prop('disabled', true);
+  $('#goBackBtn').prop('disabled', true);
+  $('.logout-btn').prop('disabled', true);
 
-$('.optionSection').empty();
+  $('.optionSection').empty();
 
-$('.optionSection').append("<div class='optionItem'></div>");
-$('.optionItem').append("<label>Name of the person : </label>");
-$('.optionItem').append("<input type='text' id='personName' placeholder='User ID' onchange='checkPersonUsrID()'>");
+  $('.optionSection').append("<div class='optionItem'></div>");
+  $('.optionItem').append("<label>Name of the person : </label>");
+  $('.optionItem').append("<input type='text' id='personName' placeholder='User ID' onchange='checkPersonUsrID()'>");
 
-$(".optionSection").append("<div id='BtnWrapper'></div>");
-$("#BtnWrapper").append("<button type='button' id='confirmVote' onclick='homePageSetup()'>Confirm</button>");
-$("#BtnWrapper").append("<button type='button' id='addPerson' onclick='linkPersonToLastVote()' disabled>Add person</button>");
+  $(".optionSection").append("<div id='BtnWrapper'></div>");
+  $("#BtnWrapper").append("<button type='button' id='confirmVote' onclick='homePageSetup()'>Confirm</button>");
+  $("#BtnWrapper").append("<button type='button' id='addPerson' onclick='linkPersonToLastVote()' disabled>Add person</button>");
 
-$(".optionSection").append("<table id='listPerson'></table>")
-$("#listPerson").append("<tr><th>Person ID :</th></tr>")
+  $(".optionSection").append("<table id='listPerson'></table>");
+  $("#listPerson").append("<tr id='listHeader'><th>List ID :</th></tr>");
 
+  checkListExistence();
 }
+
+//Create buttons for the pre made lists if they exist
+
+function checkListExistence() {
+  $.ajax({
+    dataType: "json",
+    url: "../php/checkListExistence.php"
+  }).done(function(e) {
+    for(let i = 0; i < e.length; i++){
+      let filename = e[i].split(".");
+      $('#listHeader').append("<th><button type='button' id="+ filename[0] +" value="+ filename[0] +" onclick='addListToVote(value)'>"+ filename[0] +"</button></th>");
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
+}
+
+//Put all the people in the list in the vote
+
+function addListToVote(listName) {
+  let extension = ".json";
+  let listNameFull = listName.concat(extension);
+
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/addListToVote.php",
+    data: {"fileName": listNameFull}
+  }).done(function (e) {
+    linkListToLastVotePageSetup();
+    for(let i = 0; i < e.length; i++){
+      let personAdded = e[i];
+      $("#listPerson").append("<tr id='row"+ personAdded +"'><td>"+ personAdded +"</td> <td> <button type='button' id='supprPerson' value='"+ personAdded +"' onclick='supprPerson(value)' >❌</td></tr>");
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
+}
+
 
 //Verify if the user entered in the adding person to vote screen exist on the plaforme
 
@@ -472,67 +512,71 @@ $.ajax({
 //Link the list of voters to the last vote registered in the logs directory
 
 function linkPersonToLastVote() {
-let personID = $("#personName").val();
-$.ajax({
-  method: "POST",
-  dataType: "json",
-  url: "../php/linkListWithVote.php",
-  data: {"personID": personID}
-}).done(function (e) {
-  if(e == 1){
-    let personAdded = $("#personName").val();
-    $("#listPerson").append("<tr id='row"+ personAdded +"'><td>"+ personAdded +"</td> <td> <button type='button' id='supprPerson' value='"+ personAdded +"' onclick='supprPerson(value)' >❌</td></tr>");
-    $("#personName").val('');
-    $("#personName").css("background", "");
-    $('#addPerson').prop('disabled', true);
-  }else{
-    $("#personName").css("background", "");
-    alert("That person is already on the list");
-  }
-}).fail(function (e) {
-  console.log(e);
-});
+  let personID = $("#personName").val();
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/linkListWithVote.php",
+    data: {"personID": personID}
+  }).done(function (e) {
+    if(e == 1){
+      let personAdded = $("#personName").val();
+      $("#listPerson").append("<tr id='row"+ personAdded +"'><td>"+ personAdded +"</td> <td> <button type='button' id='supprPerson' value='"+ personAdded +"' onclick='supprPerson(value)' >❌</td></tr>");
+      $("#personName").val('');
+      $("#personName").css("background", "");
+      $('#addPerson').prop('disabled', true);
+    }else{
+      $("#personName").css("background", "");
+      alert("That person is already on the list");
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
 }
 
 //Suppression of person in the list of the vote just created
 
 function supprPerson(personID) {
-let personID2 = personID;
-$.ajax({
-  method: "POST",
-  url: "../php/supprPersonFromVote.php",
-  data: {"personID": personID2}
-}).done(function (e) {
-  $("#row"+ personID2 +"").remove();
-}).fail(function (e) {
-  console.log(e);
-});
+  let personID2 = personID;
+  $.ajax({
+    method: "POST",
+    url: "../php/supprPersonFromVote.php",
+    data: {"personID": personID2}
+  }).done(function (e) {
+    $("#row"+ personID2 +"").remove();
+  }).fail(function (e) {
+    console.log(e);
+  });
 }
 
 //Setup the contructor of pre made list with
 
 function listMakerPageSetup() {
-$('#BallotSetUp').remove();
-$('#preMadelistBtn').remove();
-$("#supprPreMadeList").remove();
+  $('#BallotSetUp').remove();
+  $('#preMadelistBtn').remove();
+  $("#supprPreMadeList").remove();
 
-$('.menu').prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>");
+  $('.menu').prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>");
 
-$('.ballots').empty();
+  $('.ballots').empty();
 
-$('.ballots').append("<h1>Make your list</h1>");
+  $('.ballots').append("<h1>Make your list</h1>");
 
-$('.ballots').append("<div class='listMakerName' style='margin:15px'><div>");
-$('.listMakerName').append("<label>Name of the list : </label>");
-$('.listMakerName').append("<input type='text' id='listMakerTitle' placeholder='Name of the list' onchange='checkNameOfThelist()'>");
+  $('.ballots').append("<div class='listMakerName' style='margin:15px'><div>");
+  $('.listMakerName').append("<label>Name of the list : </label>");
+  $('.listMakerName').append("<input type='text' id='listMakerTitle' placeholder='Name of the list' onchange='checkNameOfThelist()'>");
 
-$('.ballots').append("<div class='listMakerUsrID' style='margin:15px'><div>");
-$('.listMakerUsrID').append("<label>User ID : </label>");
-$('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder='User ID' onchange='checkNameList()' disabled>");
+  $('.ballots').append("<div class='listMakerUsrID' style='margin:15px'><div>");
+  $('.listMakerUsrID').append("<label>User ID : </label>");
+  $('.listMakerUsrID').append("<input type='text' id='listMakerUsrID' placeholder='User ID' onchange='checkNameList()' disabled>");
 
-$('.ballots').append("<div id='BtnWrapperListMaker' style='padding: 3px 3px;border-radius: 5px;margin: 5px;'><div>");
-$("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()' disabled>Confirm</button>");
-$("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()' disabled>Add person</button>");
+  $('.ballots').append("<div id='BtnWrapperListMaker' style='padding: 3px 3px;border-radius: 5px;margin: 5px;'><div>");
+  $("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()' disabled>Confirm</button>");
+  $("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()' disabled>Add person</button>");
+
+
+  $('.ballots').append("<table id='listPerson'></table>");
+  $("#listPerson").append("<tr id='listHeader'><th>Person ID :</th></tr>");
 
 /*$(".ballots").append("<div id='upload_zone'></div>");
 $("#upload_zone").append("<h3>Choose your json file : </h3>")
@@ -575,122 +619,227 @@ $("#upload_zone").append("<button type='button' id='uploadBtn' onclick='uploadFi
 //Check if a list has already the name entered
 
 function checkNameOfThelist() {
-let listName_raw = $('#listMakerTitle').val();
+  let listName_raw = $('#listMakerTitle').val();
 
-let listName = listName_raw.toLowerCase();
-let json = ".json";
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
 
-let listName_json = listName.concat(json);
+  let listName_json = listName.concat(json);
 
-$.ajax({
-  method: "POST",
-  url: "../php/checkListName.php",
-  data: {
-    "fileName": listName_json
-  }
+  $.ajax({
+    method: "POST",
+    url: "../php/checkListName.php",
+    data: {
+      "fileName": listName_json
+    }
 
-}).done(function (e) {
-  if(e == 1){
-    $('#listMakerUsrID').prop('disabled', false);
-    $('#confirmListBtn').prop('disabled', false);
-    $('#listMakerTitle').css("background", "lightgreen");
-    $('.listMakerName').append("<span> List created </span>");
-    $('#listMakerTitle').prop('disabled', true);
-    $('#goBackBtn').prop('disabled', true);
-  }else{
-    $('#listMakerUsrID').prop('disabled', true);
-    $('#listMakerTitle').css("background", "red");
-    $('.listMakerName span').remove();
-  }
+  }).done(function (e) {
+    if(e == 1){
+      $('#listMakerUsrID').prop('disabled', false);
+      $('#confirmListBtn').prop('disabled', false);
+      $('#listMakerTitle').css("background", "lightgreen");
+      $('.listMakerName').append("<span> List created </span>");
+      $('#listMakerTitle').prop('disabled', true);
+      $('#goBackBtn').prop('disabled', true);
+    }else{
+      $('#listMakerUsrID').prop('disabled', true);
+      $('#listMakerTitle').css("background", "red");
+      $('.listMakerName span').remove();
+    }
 
-}).fail(function (e) {
-    console.log(e);
-});
+  }).fail(function (e) {
+      console.log(e);
+  });
 
 }
 
 //Check person exist on the platforme and is not already on the list
 
 function checkNameList(){
-let listName_raw = $('#listMakerTitle').val();
+  let listName_raw = $('#listMakerTitle').val();
 
-let listName = listName_raw.toLowerCase();
-let json = ".json";
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
 
-let listName_json = listName.concat(json);
+  let listName_json = listName.concat(json);
 
-let name = $('#listMakerUsrID').val();
+  let name = $('#listMakerUsrID').val();
 
-$.ajax({
-  method: "POST",
-  url: "../php/checkPersonNameListMaker.php",
-  data: {
-    'personName': name,
-    'listName': listName_json
-  }
-}).done(function (e) {
-  if(e == 1){
-    $("#listMakerUsrID").css("background", "lightgreen");
-    $('#addPersonTolistBtn').prop('disabled', false);
-  }else{
-    $("#listMakerUsrID").css("background", "red");
-    $('#addPersonTolistBtn').prop('disabled', true);
-  }
-}).fail(function (e) {
-  console.log(e);
-});
+  $.ajax({
+    method: "POST",
+    url: "../php/checkPersonNameListMaker.php",
+    data: {
+      'personName': name,
+      'listName': listName_json
+    }
+  }).done(function (e) {
+    if(e == 1){
+      $("#listMakerUsrID").css("background", "lightgreen");
+      $('#addPersonTolistBtn').prop('disabled', false);
+    }else{
+      $("#listMakerUsrID").css("background", "red");
+      $('#addPersonTolistBtn').prop('disabled', true);
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
 }
 
 
 function addPersonTolist() {
-let listName_raw = $('#listMakerTitle').val();
+  let listName_raw = $('#listMakerTitle').val();
 
-let listName = listName_raw.toLowerCase();
-let json = ".json";
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
 
-let listName_json = listName.concat(json);
+  let listName_json = listName.concat(json);
 
-let name = $('#listMakerUsrID').val();
+  let name = $('#listMakerUsrID').val();
 
-$.ajax({
-  method: "POST",
-  url: "../php/addPersonToPreMadeList.php",
-  data: {
-    'personName': name,
-    'listName': listName_json
-  }
-}).done(function (e) {
-  $('#addPersonTolistBtn').prop('disabled', true);
-  $('#listMakerUsrID').val("");
-  $("#listMakerUsrID").css("background", "");
-}).fail(function (e) {
-  console.log(e);
-});
+  $.ajax({
+    method: "POST",
+    url: "../php/addPersonToPreMadeList.php",
+    data: {
+      'personName': name,
+      'listName': listName_json
+    }
+  }).done(function (e) {
+    $('#listPerson').append("<tr id='row"+ name +"'><td>"+ name +"</td><td><button type='button' value="+ name +" onclick='supprPersonList(value)'>❌</button></td></tr>");
+    $('#addPersonTolistBtn').prop('disabled', true);
+    $('#listMakerUsrID').val("");
+    $("#listMakerUsrID").css("background", "");
+  }).fail(function (e) {
+    console.log(e);
+  });
+}
+
+function supprPersonList(name) {
+  let listName_raw = $('#listMakerTitle').val();
+
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
+
+  let listName_json = listName.concat(json);
+
+  $.ajax({
+    method: "POST",
+    url: "../php/supprPersonFromList.php",
+    data: {
+      "listName": listName_json,
+      "personName": name
+    }
+  }).done(function (e) {
+    $("#row"+ name +"").remove();
+  }).fail(function (e) {
+    console.log(e);
+  });
 }
 
 function confirmeList() {
-let test = confirm("Are you sure ? You won't be able to modify this list anymore");
-if(test){
-  homePageSetup();
-}
+  let test = confirm("Are you sure ? You won't be able to modify this list anymore");
+  if(test){
+    homePageSetup();
+  }
 }
 
 function deleteListPageSetup() {
-$(".ballots").empty();
-$(".ballots").append("<h1>Delete list :</h1>");
+  $(".ballots").empty();
+  $(".ballots").append("<h1>Delete list :</h1>");
 
-$('#preMadelistBtn').remove();
-$("#supprPreMadeList").remove();
-$("#BallotSetUp").remove();
-$(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>");
+  $('#preMadelistBtn').remove();
+  $("#supprPreMadeList").remove();
+  $("#BallotSetUp").remove();
+  $("#goBackBtn").remove();
+  $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>");
 
-$(".ballots").append("<div class='optionSection'></div>");
+  $(".ballots").append("<div class='optionSection'></div>");
 
-$(".optionSection").append("<div id='PreMadeListDelete'></div>");
-$("#PreMadeListDelete").append("<label>Name of the list : </label>");
-$("#PreMadeListDelete").append("<input type='text' id='listDeleteTitle' placeholder='Name of the list'>");
+  $(".optionSection").append("<div id='PreMadeListDelete'></div>");
+  $("#PreMadeListDelete").append("<label>Name of the list : </label>");
+  $("#PreMadeListDelete").append("<input type='text' id='listDeleteTitle' onchange='checkListNameForDeletion()' placeholder='Name of the list'>");
 
-$(".optionSection").append("<div id='BtnWrapper'></div>");
+  $(".optionSection").append("<div id='BtnWrapper'></div>");
 
-$("#BtnWrapper").append("<button type='button' id='deleteBtn' onclick='deletePopup()'>Delete</button>");
+  $("#BtnWrapper").append("<button type='button' id='deleteBtn' onclick='deletePopup()' disabled>Delete</button>");
+
+  $('.optionSection').append("<table id='listPerson'></table>");
+  $("#listPerson").append("<tr id='listHeader'><th>Your lists :</th></tr>");
+
+  list();
+}
+
+
+function checkListNameForDeletion() {
+  let listName_raw = $('#listDeleteTitle').val();
+
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
+
+  let listName_json = listName.concat(json);
+
+  $.ajax({
+    method: "POST",
+    url: "../php/checkListNameDeletion.php",
+    data: {
+      "fileName": listName_json
+    }
+  }).done(function (e) {
+    if(e == 1){
+      alert("This list doesn't exist");
+      $("#listDeleteTitle").css("background", "red");
+      $('#deleteBtn').prop('disabled', true);
+    }else{
+      $("#listDeleteTitle").css("background", "lightgreen");
+      $('#deleteBtn').prop('disabled', false);
+    }
+  }).fail(function (e) {
+      console.log(e);
+  });
+
+}
+
+
+function deletePopup() {
+  let test = confirm("Are you sure ? You won't be able to recover this list anymore");
+  if(test){
+    deleteList();
+  }
+}
+
+function deleteList() {
+  let listName_raw = $('#listDeleteTitle').val();
+
+  let listName = listName_raw.toLowerCase();
+  let json = ".json";
+
+  let listName_json = listName.concat(json);
+
+  $.ajax({
+    method: "POST",
+    url: "../php/deleteList.php",
+    data: {
+      "fileName": listName_json
+    }
+  }).done(function (e) {
+    $('#listDeleteTitle').val("");
+    $("#listDeleteTitle").css("background", "");
+    $('#deleteBtn').prop('disabled', true);
+    deleteListPageSetup();
+  }).fail(function (e) {
+    console.log(e);
+  });
+}
+
+function list(){
+  $.ajax({
+    dataType: "json",
+    url: "../php/checkListExistence.php"
+  }).done(function(e) {
+    for(let i = 0; i < e.length; i++){
+      let filename = e[i].split(".");
+      $('#listPerson').append("<tr><td> - "+ filename[0] +"</td></tr>");
+    }
+  }).fail(function (e) {
+    console.log(e);
+  });
 }
