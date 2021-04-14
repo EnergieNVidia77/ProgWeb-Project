@@ -20,12 +20,13 @@
             $title = $etu["title"];
             $promoter = $etu["promoter"];
             $voteID = $etu["voteID"];
+            $open = $etu["open"];
         
             $nbGens = count($etu["voters"]);
     
             
             $pr = ($nbVoters/$nbGens)*100;
-            array_push($result, array("title"=>$title,"promoter"=>$promoter,"pr"=>$pr, "voteID" => $voteID));
+            array_push($result, array("title"=>$title,"promoter"=>$promoter,"pr"=>$pr, "voteID" => $voteID, "open" => $open));
         }
     }
   }

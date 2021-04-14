@@ -10,7 +10,7 @@
     if($etu["voteID"]==$_COOKIE["CurrentVoteID"]) {
       foreach($etu["voters"] as $j=>$voter) {
         if($voter["userID"]==$_COOKIE["CurrentUsrID"]) {
-          if($data["votes"][$i]["voters"][$j]["voted"]=="false") {
+          if($voter["voted"]=="false") {
             $data["votes"][$i]["voters"][$j]["vote"] = $_POST["personal"];
             $data["votes"][$i]["voters"][$j]["nbVote"] = $data["votes"][$i]["voters"][$j]["nbVote"] - 1;
             $data["votes"][$i]["voters"][$j]["voted"]="true";
@@ -30,7 +30,7 @@
       foreach($etu["voters"] as $j=>$voter) {
         if($nbp > 0) {
           if($voter["userID"]==$procuration[0]) {
-            if($data["votes"][$i]["voters"][$j]["voted"]=="false") {
+            if($voter["voted"]=="false") {
               $data["votes"][$i]["voters"][$j]["vote"] = $_POST["first"];
               $data["votes"][$x]["voters"][$y]["nbVote"] = $data["votes"][$x]["voters"][$y]["nbVote"] - 1;
               $data["votes"][$i]["voters"][$j]["voted"]="true";
@@ -38,7 +38,7 @@
           } else {
             if($nbp > 1) {
               if($voter["userID"]==$procuration[1]) {
-                if($data["votes"][$i]["voters"][$j]["voted"]=="false") {
+                if($voter["voted"]=="false") {
                   $data["votes"][$i]["voters"][$j]["vote"] = $_POST["second"];
                   $data["votes"][$x]["voters"][$y]["nbVote"] = $data["votes"][$x]["voters"][$y]["nbVote"] - 1;
                   $data["votes"][$i]["voters"][$j]["voted"]="true";

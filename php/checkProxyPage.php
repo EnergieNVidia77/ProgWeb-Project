@@ -9,9 +9,9 @@
   $result;
 
   foreach ($data["votes"] as $i=>$etu){
-    if($etu["voteID"]==$_POST["voteID"]) {
+    if($etu["voteID"]==$_COOKIE["CurrentVoteID"]) {
       $vote = $etu;
-      $result = array("vote"=>$vote,"userID"=>$userID);
+      $result = array("vote"=>$vote,"userID"=>$userID, "voteID"=>$etu["voteID"]);
     }
   }
 
