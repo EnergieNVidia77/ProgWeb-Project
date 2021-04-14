@@ -98,7 +98,7 @@ $.ajax({
   
     $(".optionSection").append("<div id='BtnWrapper'></div>");
     $("#BtnWrapper").append("<button type='button' id='vote' value="+voteID+" onclick='CreateVotePage(value)'>Vote</button>");
-    if(obj.userVote.votedProcuration=="NULL") {
+    if(obj.userVote.votedProcuration=="NULL" && obj.userVote.procuration.length==0) {
       ///If the current user can still proxy, add a button at the bottom of the page to let him access the proxy page
       $("#BtnWrapper").append("<button type='button' id='makeProxy' onclick='CreateProxyPage()'>Make proxy</button>");
     }
@@ -137,7 +137,7 @@ $.ajax({
   //If the user has one or two proxies, write the appropriate number of lines with with the different options that he can select
   if(obj.userVote.procuration.length > 0) {
     for(voter of obj.voters) {
-      if(voter.userID==obj.userVote.procuration[0] && voter.votedProcuration=="false") {
+      if(voter.userID==obj.userVote.procuration[0] && voter.voted=="false") {
         $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
         if(voter.vote=="NULL") {
           for(choice of obj.response) {
@@ -151,7 +151,7 @@ $.ajax({
   }
   if(obj.userVote.procuration.length > 1) {
     for(voter of obj.voters) {
-      if(voter.userID==obj.userVote.procuration[1] && voter.votedProcuration=="false") {
+      if(voter.userID==obj.userVote.procuration[1] && voter.voted=="false") {
         $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
         if(voter.vote=="NULL") {
           for(choice of obj.response) {
