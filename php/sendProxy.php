@@ -20,6 +20,6 @@
   fwrite($fp, json_encode($data));
   fclose($fp);
 
-  $foundJsonString = json_encode($_COOKIE["CurrentVoteID"]);
+  $foundJsonString = json_encode($_COOKIE["CurrentVoteID"],  JSON_PRETTY_PRINT));
   echo $foundJsonString;
 ?>

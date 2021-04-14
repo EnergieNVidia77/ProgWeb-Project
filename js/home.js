@@ -350,7 +350,7 @@ $.ajax({
 });
 }
 
-//Set up the HTML for adding persons to the current vote 
+//Set up the HTML for adding persons to the vote created just before 
 
 function linkListToLastVotePageSetup() {
 
@@ -460,47 +460,43 @@ $('.ballots').append("<div id='BtnWrapperListMaker' style='padding: 3px 3px;bord
 $("#BtnWrapperListMaker").append("<button type='button' id='confirmListBtn' onclick='confirmeList()' disabled>Confirm</button>");
 $("#BtnWrapperListMaker").append("<button type='button' id='addPersonTolistBtn' onclick='addPersonTolist()' disabled>Add person</button>");
 
-$(".ballots").append("<div id='upload_zone'></div>");
+/*$(".ballots").append("<div id='upload_zone'></div>");
 $("#upload_zone").append("<h3>Choose your json file : </h3>")
 $("#upload_zone").append("<input id='file' name='file' type='file'>");
-$("#upload_zone").append("<button type='button' id='uploadBtn' onclick='uploadFile()'>Upload</button>");
-
-
-
-
-
-//$(".ballots").append("<div id='drop_zone' ondragover='dragoverHandler(event);' ondragleave='dragleaveHandler(event);' ondrop='dropHandler(event);'></div>");
-//$("#drop_zone").append("<img src='../img/cloud_icon.svg' alt='Cloud icon'>");
-//$("#drop_zone").append("<header>Drop your list in json here</header>");
+$("#upload_zone").append("<button type='button' id='uploadBtn' onclick='uploadFile()'>Upload</button>");*/
 
 }
 
 
-function uploadFile() {
-console.log("Hello");
+/*function uploadFile() {
+  console.log("Hello");
 
-let file = document.getElementById('file').files[0];
-let filename = file.name;
-let extension = filename.split('.').pop().toLowerCase();
-if(jQuery.inArray(extension, ['json']) == -1){
-  alert("Your file is not a json file");
-  $('#file').val('');
-}else{
-  let formData = new FormData();
-  formData.append("file", file);
+  let file = document.getElementById('file').files[0];
+  let filename = file.name;
+  let extension = filename.split('.').pop().toLowerCase();
+  if(jQuery.inArray(extension, ['json']) == -1){
+    alert("Your file is not a json file");
+    $('#file').val('');
+  }else{
+    let formData = new FormData();
+    formData.append("file", file);
 
-  $.ajax({
-    url:"../php/uploadList.php",
-    method: "POST",
-    data: formData,
-    contentType: false,
-    processData: false,
-    success: function(){
-      console.log("Success !!");
-    }
-  })
-}
-}
+    $.ajax({
+      url:"../php/uploadList.php",
+      method: "POST",
+      data: formData,
+      contentType: false,
+      processData: false,
+      success: function(e){
+        if(e == 0){
+          alert("A list with this name already exist.")
+        }else{
+          console.log("Success !!");
+        }
+      }
+    })
+  }
+}*/
 
 //Check if a list has already the name entered
 

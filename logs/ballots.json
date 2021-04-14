@@ -9,11 +9,11 @@
             "voters": [
                 {
                     "userID": "Admin",
-                    "vote": "NULL",
+                    "vote": "No",
                     "votedProcuration": "false",
                     "procuration": [],
-                    "nbVote": 1,
-                    "voted": "false"
+                    "nbVote": 0,
+                    "voted": "true"
                 },
                 {
                     "userID": "Benjamin",
@@ -46,8 +46,8 @@
             "voters": [
                 {
                     "userID": "Admin",
-                    "vote": "NULL",
-                    "votedProcuration": "false",
+                    "vote": "Yes",
+                    "votedProcuration": "true",
                     "procuration": [],
                     "nbVote": 1,
                     "voted": "false"
@@ -64,7 +64,9 @@
                     "userID": "Benjamin",
                     "vote": "NULL",
                     "votedProcuration": "false",
-                    "procuration": [],
+                    "procuration": [
+                        "Admin"
+                    ],
                     "nbVote": 1,
                     "voted": "false"
                 }
@@ -72,6 +74,39 @@
             "response": [
                 "Yes",
                 "Yes"
+            ]
+        },
+        {
+            "voteID": "a851b9a3603c3ccb8beb705c30c32f8d",
+            "open": "true",
+            "title": "Hello ",
+            "question": "World",
+            "promoter": "Admin",
+            "voters": [
+                {
+                    "userID": "Admin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": [],
+                    "nbVote": 1,
+                    "voted": "false"
+                },
+                {
+                    "userID": "Toufic",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                },
+                {
+                    "userID": "Benjamin",
+                    "vote": "NULL",
+                    "votedProcuration": "false",
+                    "procuration": []
+                }
+            ],
+            "response": [
+                "Yes",
+                "No"
             ]
         }
     ]
