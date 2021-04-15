@@ -581,43 +581,7 @@ function listMakerPageSetup() {
   $('.ballots').append("<table id='listPerson'></table>");
   $("#listPerson").append("<tr id='listHeader'><th>Person ID :</th></tr>");
 
-/*$(".ballots").append("<div id='upload_zone'></div>");
-$("#upload_zone").append("<h3>Choose your json file : </h3>")
-$("#upload_zone").append("<input id='file' name='file' type='file'>");
-$("#upload_zone").append("<button type='button' id='uploadBtn' onclick='uploadFile()'>Upload</button>");*/
-
 }
-
-
-/*function uploadFile() {
-  console.log("Hello");
-
-  let file = document.getElementById('file').files[0];
-  let filename = file.name;
-  let extension = filename.split('.').pop().toLowerCase();
-  if(jQuery.inArray(extension, ['json']) == -1){
-    alert("Your file is not a json file");
-    $('#file').val('');
-  }else{
-    let formData = new FormData();
-    formData.append("file", file);
-
-    $.ajax({
-      url:"../php/uploadList.php",
-      method: "POST",
-      data: formData,
-      contentType: false,
-      processData: false,
-      success: function(e){
-        if(e == 0){
-          alert("A list with this name already exist.")
-        }else{
-          console.log("Success !!");
-        }
-      }
-    })
-  }
-}*/
 
 //Check if a list has already the name entered
 
@@ -688,6 +652,7 @@ function checkNameList(){
   });
 }
 
+//Rajoute une personne dans la liste
 
 function addPersonTolist() {
   let listName_raw = $('#listMakerTitle').val();
@@ -716,6 +681,8 @@ function addPersonTolist() {
   });
 }
 
+//Supprime une personne de la liste
+
 function supprPersonList(name) {
   let listName_raw = $('#listMakerTitle').val();
 
@@ -738,12 +705,16 @@ function supprPersonList(name) {
   });
 }
 
+//Confirme la list
+
 function confirmeList() {
   let test = confirm("Are you sure ? You won't be able to modify this list anymore");
   if(test){
     homePageSetup();
   }
 }
+
+//Set up le html de la page pour supprimer une liste
 
 function deleteListPageSetup() {
   $(".ballots").empty();
@@ -771,6 +742,7 @@ function deleteListPageSetup() {
   list();
 }
 
+//Check l'existence de la liste pour la suppression
 
 function checkListNameForDeletion() {
   let listName_raw = $('#listDeleteTitle').val();
@@ -801,6 +773,7 @@ function checkListNameForDeletion() {
 
 }
 
+//Confirme la suppression d'une liste
 
 function deletePopup() {
   let test = confirm("Are you sure ? You won't be able to recover this list anymore");
@@ -808,6 +781,8 @@ function deletePopup() {
     deleteList();
   }
 }
+
+//Supprime la liste
 
 function deleteList() {
   let listName_raw = $('#listDeleteTitle').val();
@@ -832,6 +807,8 @@ function deleteList() {
     console.log(e);
   });
 }
+
+//Liste les liste présentes
 
 function list(){
   $.ajax({
