@@ -541,13 +541,12 @@ function linkPersonToLastVote() {
 //Suppression of person in the list of the vote just created
 
 function supprPerson(personID) {
-  let personID2 = personID;
   $.ajax({
     method: "POST",
     url: "../php/supprPersonFromVote.php",
-    data: {"personID": personID2}
+    data: {"personID": personID}
   }).done(function (e) {
-    $("#row"+ personID2 +"").remove();
+    $("#row"+ personID +"").remove();
   }).fail(function (e) {
     console.log(e);
   });

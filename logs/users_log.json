@@ -14,6 +14,11 @@
             "usrID": "Benjamin",
             "usrEmail": "$2y$10$CRYSsv2.ExRJ8OdroKMzZOUKhK23ycwvwXP5uhJhtcyLklWeVD2RW",
             "usrPassword": "$2y$10$xhrRr\/t8hkp6kqgx2M6eJerf6LpTr4aBp.lDMS5ud1cff2fEZlvu."
+        },
+        {
+            "usrID": "Prof",
+            "usrEmail": "$2y$10$XKw5fbIjzGSphfO.AMRFvujzSSDOLfo8gpAYPti9Hg3DL4gnGYtm2",
+            "usrPassword": "$2y$10$9QYCRResI2sSsfyzqQbYZ.4UgTJe4Y4lFLOy88VVh5ffllX0Qycw."
         }
     ]
 }

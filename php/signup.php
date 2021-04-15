@@ -46,7 +46,16 @@
     if($test == false){
         echo 0;
     }else{
-        echo 1;
+        if(!isset($_COOKIE["CurrentUsrID"])){
+            setcookie("CurrentUsrID", $usrID, strtotime("+2 day"));
+            echo 1;
+            exit();
+        }else{
+            unset($_COOKIE["CurrentUsrID"]);
+            setcookie("CurrentUsrID", $usrID, strtotime("+2 day"));
+            echo 1;
+            exit();
+        }
     }
 
 ?>

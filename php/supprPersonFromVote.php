@@ -9,12 +9,14 @@
 
 
     function removeUsr($arrayOfUsr, $personID){
+        $new_array = array();
         for($i = 0; $i < count($arrayOfUsr); $i++){
-            if($arrayOfUsr[$i]['userID'] == $personID){
-                unset($arrayOfUsr[$i]);
-                return $arrayOfUsr;
+            if($arrayOfUsr[$i]['userID'] != $personID){
+                $value = $arrayOfUsr[$i];
+                array_push($new_array, $value);
             }
         }
+        return $new_array;
     }
 
     for($i=0; $i < count($votes_logs_JSON['votes']); $i++){
