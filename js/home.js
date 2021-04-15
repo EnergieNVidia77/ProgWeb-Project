@@ -23,240 +23,240 @@ function displayBallots(){
 
 //Set up the page containing the informations of the chosen ballot
 function CreateBallotPageCheck (voteID) {
-$.ajax({
-  method: "POST",
-  dataType: "json",
-  url: "../php/checkBallots.php",
-  data: {
-    "voteID": voteID
-  }
-}).done(function(obj) {
-  //Empty the home page
-  $(".ballots").empty();
-  //Write title of the the selected ballot as a headline
-  $(".ballots").append("<h1>"+obj.title+"</h1>");
-  //Write the question of the ballot under the title
-  $(".ballots").append("<h2>"+obj.question+"</h2>");
-  if(obj.open=="true") {
-    if(obj.role > 1) {
-      //Create a new table only visible by the promoter of the ballot
-      $(".ballots").append("<table id ='list'>");
-      $("#list").append("<tr><th>Voter</th><th>Made a proxy to</th><th>Proxies of</th></tr>");
-      for(voter of obj.voters) {
-        $recipient = voter.votedProcuration;
-        if($recipient=="NULL") {
-          $recipient = "Nobody"
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/checkBallots.php",
+    data: {
+      "voteID": voteID
+    }
+  }).done(function(obj) {
+    //Empty the home page
+    $(".ballots").empty();
+    //Write title of the the selected ballot as a headline
+    $(".ballots").append("<h1>"+obj.title+"</h1>");
+    //Write the question of the ballot under the title
+    $(".ballots").append("<h2>"+obj.question+"</h2>");
+    if(obj.open=="true") {
+      if(obj.role > 1) {
+        //Create a new table only visible by the promoter of the ballot
+        $(".ballots").append("<table id ='list'>");
+        $("#list").append("<tr><th>Voter</th><th>Made a proxy to</th><th>Proxies of</th></tr>");
+        for(voter of obj.voters) {
+          $recipient = voter.votedProcuration;
+          if($recipient=="NULL") {
+            $recipient = "Nobody"
+          }
+          $proxy = voter.procuration;
+          if($proxy.length==0) {
+            $proxy = "Nobody";
+          }
+          //Fill the table with the ID of each voters and the proxies that they received or sent
+          $("#list").append("<tr><td>"+voter.userID+"</td><td>"+$recipient+"</td><td>"+$proxy+"</td></tr>");
         }
-        $proxy = voter.procuration;
-        if($proxy.length==0) {
-          $proxy = "Nobody";
+      } else {
+        if(obj.userVote.nbVote==0) {
+          $(".ballots").append("<br><br><br><br><h3>Come back later when the vote is closed.</h3>");
         }
-        //Fill the table with the ID of each voters and the proxies that they received or sent
-        $("#list").append("<tr><td>"+voter.userID+"</td><td>"+$recipient+"</td><td>"+$proxy+"</td></tr>");
       }
     } else {
-      if(obj.userVote.nbVote==0) {
-        $(".ballots").append("<br><br><br><br><h3>Come back later when the vote is closed.</h3>");
-      }
-    }
-  } else {
-    //If the vote is closed, write a table containing the results of the vote
-    $(".ballots").append("<table id ='list'>");
-    $("#list").append("<tr><th>Response</th><th>In absolute number</th><th>In percentage</th></tr>");
-    for(choice of obj.response) {
-      $number = 0;
-      for(voter of obj.voters) {
-        if(voter.voted=="true" && voter.vote==choice) {
-          $number = $number + 1;
+      //If the vote is closed, write a table containing the results of the vote
+      $(".ballots").append("<table id ='list'>");
+      $("#list").append("<tr><th>Response</th><th>In absolute number</th><th>In percentage</th></tr>");
+      for(choice of obj.response) {
+        $number = 0;
+        for(voter of obj.voters) {
+          if(voter.voted=="true" && voter.vote==choice) {
+            $number = $number + 1;
+          }
         }
+        $percentage = ($number/obj.voters.length)*100
+        //Fill the table with the number of votes in abslute number and percentage corresponding to its choice
+        $("#list").append("<tr><td>"+choice+"</td><td>"+$number+"</td><td>"+Math.round($percentage*100)/100+"%</td></tr>");
       }
-      $percentage = ($number/obj.voters.length)*100
-      //Fill the table with the number of votes in abslute number and percentage corresponding to its choice
-      $("#list").append("<tr><td>"+choice+"</td><td>"+$number+"</td><td>"+Math.round($percentage*100)/100+"%</td></tr>");
     }
-  }
 
-  $('#preMadelistBtn').remove();
+    $('#preMadelistBtn').remove();
 
-  $("#BallotSetUp").remove();
+    $("#BallotSetUp").remove();
 
-  $(".content .menu").empty();
-  //Add a button to log out on the side of the side menu
-  $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
-  //If the user is the promoter of the ballot and the ballot is still open, add a button on the side menu to close the ballot
-  if(obj.role > 1 && obj.open=="true") {
-    $(".content .menu").prepend("<button type='button' id='closeBallot' onclick='closeBallot()'>Close Ballot</button>")
-  }
-  //Add a button to go back to the home page on the side of the side menu
-  $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
-
-  if(obj.userVote.nbVote > 0 && obj.open=="true") {
-    //If the current user can still vote, add a button at the bottom of the page to let him access the voting page
-    $(".ballots").append("<div class='optionSection'></div>");
-
-    $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
-  
-    $(".optionSection").append("<div id='BtnWrapper'></div>");
-    $("#BtnWrapper").append("<button type='button' id='vote' value="+voteID+" onclick='CreateVotePage(value)'>Vote</button>");
-    if(obj.userVote.votedProcuration=="NULL" && obj.userVote.procuration.length==0) {
-      ///If the current user can still proxy, add a button at the bottom of the page to let him access the proxy page
-      $("#BtnWrapper").append("<button type='button' id='makeProxy' onclick='CreateProxyPage()'>Make proxy</button>");
+    $(".content .menu").empty();
+    //Add a button to log out on the side of the side menu
+    $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
+    //If the user is the promoter of the ballot and the ballot is still open, add a button on the side menu to close the ballot
+    if(obj.role > 1 && obj.open=="true") {
+      $(".content .menu").prepend("<button type='button' id='closeBallot' onclick='closeBallot()'>Close Ballot</button>")
     }
-  }
-}).fail(function(e) {
-  console.log(e);
-  $("#message").html("<span class='ko'> Error: network problem </span>");
-});
+    //Add a button to go back to the home page on the side of the side menu
+    $(".content .menu").prepend("<button type='button' id='goBackBtn' onclick='homePageSetup()'>Go back</button>")
+
+    if(obj.userVote.nbVote > 0 && obj.open=="true") {
+      //If the current user can still vote, add a button at the bottom of the page to let him access the voting page
+      $(".ballots").append("<div class='optionSection'></div>");
+
+      $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+    
+      $(".optionSection").append("<div id='BtnWrapper'></div>");
+      $("#BtnWrapper").append("<button type='button' id='vote' value="+voteID+" onclick='CreateVotePage(value)'>Vote</button>");
+      if(obj.userVote.votedProcuration=="NULL" && obj.userVote.procuration.length==0) {
+        ///If the current user can still proxy, add a button at the bottom of the page to let him access the proxy page
+        $("#BtnWrapper").append("<button type='button' id='makeProxy' onclick='CreateProxyPage()'>Make proxy</button>");
+      }
+    }
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
 }
 
 //Set up the page with all the vote options of the chosen ballot
 function CreateVotePage(voteID) {
-$.ajax({
-  method: "POST",
-  dataType: "json",
-  url: "../php/checkBallots.php",
-  data: {
-    "voteID": voteID
-  }
-}).done(function(obj) {
-  //Empty the page
-  $(".ballots").empty();
-  //Write title of the the selected ballot as a headline
-  $(".ballots").append("<h1>"+obj.title+"</h1>");
-  //Write the question of the ballot under the title
-  $(".ballots").append("<h2>"+obj.question+"</h2>");
-
-  $(".ballots").append("<table id ='list'>");
-  //If the user has not voted yet, write a line with the different options that he can select
-  if(obj.userVote.vote=="NULL") {
-    $("#list").append("<br><br><td>-Personal vote : <select id='personal'></select></td>");
-    for(choice of obj.response) {
-      $("#personal").append("<option value="+choice+">"+choice+"</option>");
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/checkBallots.php",
+    data: {
+      "voteID": voteID
     }
-  }
-  //If the user has one or two proxies, write the appropriate number of lines with with the different options that he can select
-  if(obj.userVote.procuration.length > 0) {
-    for(voter of obj.voters) {
-      if(voter.userID==obj.userVote.procuration[0] && voter.voted=="false") {
-        $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
-        if(voter.vote=="NULL") {
-          for(choice of obj.response) {
-            $("#first").append("<option value="+choice+">"+choice+"</option>");
+  }).done(function(obj) {
+    //Empty the page
+    $(".ballots").empty();
+    //Write title of the the selected ballot as a headline
+    $(".ballots").append("<h1>"+obj.title+"</h1>");
+    //Write the question of the ballot under the title
+    $(".ballots").append("<h2>"+obj.question+"</h2>");
+
+    $(".ballots").append("<table id ='list'>");
+    //If the user has not voted yet, write a line with the different options that he can select
+    if(obj.userVote.vote=="NULL") {
+      $("#list").append("<br><br><td>-Personal vote : <select id='personal'></select></td>");
+      for(choice of obj.response) {
+        $("#personal").append("<option value="+choice+">"+choice+"</option>");
+      }
+    }
+    //If the user has one or two proxies, write the appropriate number of lines with with the different options that he can select
+    if(obj.userVote.procuration.length > 0) {
+      for(voter of obj.voters) {
+        if(voter.userID==obj.userVote.procuration[0] && voter.voted=="false") {
+          $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[0]+" : <select id='first'></select></td>");
+          if(voter.vote=="NULL") {
+            for(choice of obj.response) {
+              $("#first").append("<option value="+choice+">"+choice+"</option>");
+            }
+          } else {
+            $("#first").append("<option value="+voter.vote+">"+voter.vote+"</option>");
           }
-        } else {
-          $("#first").append("<option value="+voter.vote+">"+voter.vote+"</option>");
         }
       }
     }
-  }
-  if(obj.userVote.procuration.length > 1) {
-    for(voter of obj.voters) {
-      if(voter.userID==obj.userVote.procuration[1] && voter.voted=="false") {
-        $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
-        if(voter.vote=="NULL") {
-          for(choice of obj.response) {
-            $("#second").append("<option value="+choice+">"+choice+"</option>");
+    if(obj.userVote.procuration.length > 1) {
+      for(voter of obj.voters) {
+        if(voter.userID==obj.userVote.procuration[1] && voter.voted=="false") {
+          $("#list").append("<br><br><td>-Vote for "+obj.userVote.procuration[1]+" : <select id='second'></select></td>");
+          if(voter.vote=="NULL") {
+            for(choice of obj.response) {
+              $("#second").append("<option value="+choice+">"+choice+"</option>");
+            }
+          } else {
+            $("#second").append("<option value="+voter.vote+">"+voter.vote+"</option>");
           }
-        } else {
-          $("#second").append("<option value="+voter.vote+">"+voter.vote+"</option>");
         }
       }
     }
-  }
 
-  $('#preMadelistBtn').remove();
+    $('#preMadelistBtn').remove();
 
-  $("#BallotSetUp").remove();
+    $("#BallotSetUp").remove();
 
-  $(".content .menu").empty();
-  //Add a button on the side menu, to allow the user to log out
-  $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
-  //Add a button on the side menu, to allow the user to go back to the previous page
-  $(".content .menu").prepend("<button type='button' id='goBackBtn' value='"+voteID+"' onclick='CreateBallotPageCheck(value)'>Go back</button>");
+    $(".content .menu").empty();
+    //Add a button on the side menu, to allow the user to log out
+    $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
+    //Add a button on the side menu, to allow the user to go back to the previous page
+    $(".content .menu").prepend("<button type='button' id='goBackBtn' value='"+voteID+"' onclick='CreateBallotPageCheck(value)'>Go back</button>");
 
-  $(".ballots").append("<div class='optionSection'></div>");
+    $(".ballots").append("<div class='optionSection'></div>");
 
-  $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+    $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
 
-  $(".optionSection").append("<div id='BtnWrapper'></div>");
-  //Add a button at the bottom of the screen to save the choices of the user
-  $("#BtnWrapper").prepend("<button type='button' id='vote' onclick='vote()'>Confirm vote</button>");
-}).fail(function(e) {
-  console.log(e);
-  $("#message").html("<span class='ko'> Error: network problem </span>");
-});
+    $(".optionSection").append("<div id='BtnWrapper'></div>");
+    //Add a button at the bottom of the screen to save the choices of the user
+    $("#BtnWrapper").prepend("<button type='button' id='vote' onclick='vote()'>Confirm vote</button>");
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
 }
 
 //Save the vote in the ballots.json file 
 function vote() {
-$.ajax({
-  method: "POST",
-  dataType: "json",
-  url: "../php/vote.php",
-  data: {
-    "personal": $('#personal').val(),
-    "first": $('#first').val(),
-    "second": $('#second').val(),
-  }
-}).done(function (obj) {
-  //Make the user go back to the page of the selected ballot
-  CreateBallotPageCheck(obj);
-}).fail(function(e) {
-  console.log(e);
-  $("#message").html("<span class='ko'> Error: network problem </span>");
-}); 
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/vote.php",
+    data: {
+      "personal": $('#personal').val(),
+      "first": $('#first').val(),
+      "second": $('#second').val(),
+    }
+  }).done(function (obj) {
+    //Make the user go back to the page of the selected ballot
+    CreateBallotPageCheck(obj);
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  }); 
 }
 
 //Setup the page allowing to make a proxy for the chosen ballot
 function CreateProxyPage() {
-$.ajax({
-  method: "POST",
-  dataType: "json",
-  url: "../php/checkProxyPage.php"
-}).done(function(obj) {
-  //Empty the page
-  $(".ballots").empty();
-  //Write title of the the selected ballot as a headline
-  $(".ballots").append("<h1>"+obj.vote.title+"</h1>");
-  //Write the question of the ballot under the title
-  $(".ballots").append("<h2>"+obj.vote.question+"</h2>");
+  $.ajax({
+    method: "POST",
+    dataType: "json",
+    url: "../php/checkProxyPage.php"
+  }).done(function(obj) {
+    //Empty the page
+    $(".ballots").empty();
+    //Write title of the the selected ballot as a headline
+    $(".ballots").append("<h1>"+obj.vote.title+"</h1>");
+    //Write the question of the ballot under the title
+    $(".ballots").append("<h2>"+obj.vote.question+"</h2>");
 
-  $(".ballots").append("<table id ='list'>");
-  //Write a line to allow the user to select a possible recipient for its proxy
-  $("#list").append("<br><br><td>-Choose the recipient of the proxy : <select id='recipient'></select></td>");
-  for(voter of obj.vote.voters) {
-    if(voter.procuration.length < 2 && voter.userID!=obj.userID && voter.votedProcuration=="NULL") {
-      $("#recipient").append("<option value="+voter.userID+">"+voter.userID+"</option>");
+    $(".ballots").append("<table id ='list'>");
+    //Write a line to allow the user to select a possible recipient for its proxy
+    $("#list").append("<br><br><td>-Choose the recipient of the proxy : <select id='recipient'></select></td>");
+    for(voter of obj.vote.voters) {
+      if(voter.procuration.length < 2 && voter.userID!=obj.userID && voter.votedProcuration=="NULL") {
+        $("#recipient").append("<option value="+voter.userID+">"+voter.userID+"</option>");
+      }
     }
-  }
-  //Write a line to allow the user to select a voting  option for the recipient of the proxy
-  $("#list").append("<br><br><td>-Choose the response of the proxy : <select id='response'></select></td>");
-  $("#response").append("<option value='NULL'>The recipient can choose</option>");
-  for(choice of obj.vote.response) {
-    $("#response").append("<option value="+choice+">"+choice+"</option>");
-  }
+    //Write a line to allow the user to select a voting  option for the recipient of the proxy
+    $("#list").append("<br><br><td>-Choose the response of the proxy : <select id='response'></select></td>");
+    $("#response").append("<option value='NULL'>The recipient can choose</option>");
+    for(choice of obj.vote.response) {
+      $("#response").append("<option value="+choice+">"+choice+"</option>");
+    }
 
-  $('#preMadelistBtn').remove();
+    $('#preMadelistBtn').remove();
 
-  $("#BallotSetUp").remove();
+    $("#BallotSetUp").remove();
 
-  $(".content .menu").empty();
-  //Add a button on the side menu, to allow the user to log out
-  $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
-  //Add a button on the side menu, to allow the user to go back to the previous page
-  $(".content .menu").prepend("<button type='button' id='goBackBtn' value="+obj.voteID+" onclick='CreateBallotPageCheck(value)'>Go back</button>");
+    $(".content .menu").empty();
+    //Add a button on the side menu, to allow the user to log out
+    $(".content .menu").prepend("<button class='logout-btn' onclick='logOut()'>LOGOUT</button>");
+    //Add a button on the side menu, to allow the user to go back to the previous page
+    $(".content .menu").prepend("<button type='button' id='goBackBtn' value="+obj.voteID+" onclick='CreateBallotPageCheck(value)'>Go back</button>");
 
-  $(".ballots").append("<div class='optionSection'></div>");
+    $(".ballots").append("<div class='optionSection'></div>");
 
-  $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
+    $(".optionSection").append("<div class='optionItem' id='optionItem'></div>");
 
-  $(".optionSection").append("<div id='BtnWrapper'></div>");
-  //Add a button at the bottom of the page to allow the user to save his choices in the ballots.json file
-  $("#BtnWrapper").prepend("<button type='button' id='proxy' onclick='sendProxy()'>Send the proxy</button>");
-}).fail(function(e) {
-  console.log(e);
-  $("#message").html("<span class='ko'> Error: network problem </span>");
-});
+    $(".optionSection").append("<div id='BtnWrapper'></div>");
+    //Add a button at the bottom of the page to allow the user to save his choices in the ballots.json file
+    $("#BtnWrapper").prepend("<button type='button' id='proxy' onclick='sendProxy()'>Send the proxy</button>");
+  }).fail(function(e) {
+    console.log(e);
+    $("#message").html("<span class='ko'> Error: network problem </span>");
+  });
 }
 
 //Save the informations of the proxy in the ballots.json file
